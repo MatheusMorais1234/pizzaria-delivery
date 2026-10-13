@@ -108,7 +108,7 @@ include __DIR__ . '/includes/layout_top.php';
             <h2 class="font-extrabold text-gray-900 mb-1">Ajuste manual de pontos</h2>
             <p class="text-xs text-gray-400 mb-5">Adicione ou remova pontos de um cliente pelo telefone</p>
 
-            <form method="POST" action="/pizzaria/admin/fidelidade.php" class="space-y-4">
+            <form method="POST" action="<?= BASE ?>/admin/fidelidade.php" class="space-y-4">
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">Telefone do cliente</label>
                     <input type="tel" name="telefone" required
@@ -156,7 +156,7 @@ include __DIR__ . '/includes/layout_top.php';
     <div class="lg:col-span-2 space-y-4">
 
         <!-- Busca -->
-        <form method="GET" action="/pizzaria/admin/fidelidade.php" class="flex gap-2">
+        <form method="GET" action="<?= BASE ?>/admin/fidelidade.php" class="flex gap-2">
             <input type="text" name="busca" value="<?= htmlspecialchars($busca) ?>"
                    placeholder="Buscar por telefone ou nome…"
                    class="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-red-400">
@@ -165,7 +165,7 @@ include __DIR__ . '/includes/layout_top.php';
                 Buscar
             </button>
             <?php if ($busca): ?>
-            <a href="/pizzaria/admin/fidelidade.php"
+            <a href="<?= BASE ?>/admin/fidelidade.php"
                class="px-4 py-2.5 border border-gray-200 text-gray-600 font-semibold rounded-xl text-sm hover:bg-gray-50 transition-colors">
                 Limpar
             </a>

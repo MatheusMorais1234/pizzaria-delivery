@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->commit();
 
             // Redireciona para o kanban com confirmação
-            header('Location: /pizzaria/admin/pedidos.php?adicionado=1');
+            header('Location: ' . BASE . '/admin/pedidos.php?adicionado=1');
             exit;
 
         } catch (PDOException $e) {
@@ -170,7 +170,7 @@ include __DIR__ . '/includes/layout_top.php';
 
 <!-- Breadcrumb -->
 <div class="flex items-center gap-2 text-sm text-gray-400 mb-5">
-    <a href="/pizzaria/admin/pedidos.php" class="hover:text-gray-700 transition-colors font-medium">Pedidos</a>
+    <a href="<?= BASE ?>/admin/pedidos.php" class="hover:text-gray-700 transition-colors font-medium">Pedidos</a>
     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
     </svg>
@@ -193,7 +193,7 @@ include __DIR__ . '/includes/layout_top.php';
         <p class="text-sm text-gray-500">Registrar pedido recebido pelo WhatsApp para aparecer no kanban</p>
     </div>
     <div class="ml-auto">
-        <a href="/pizzaria/admin/pedidos.php"
+        <a href="<?= BASE ?>/admin/pedidos.php"
            class="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-600 font-semibold text-sm rounded-xl hover:bg-gray-50 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -486,7 +486,7 @@ include __DIR__ . '/includes/layout_top.php';
                 </svg>
                 Registrar pedido no sistema
             </button>
-            <a href="/pizzaria/admin/pedidos.php"
+            <a href="<?= BASE ?>/admin/pedidos.php"
                class="mt-3 w-full flex items-center justify-center text-sm text-gray-500 hover:text-gray-700 font-medium transition-colors">
                 Cancelar e voltar ao kanban
             </a>

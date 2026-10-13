@@ -87,7 +87,7 @@ include __DIR__ . '/includes/layout_top.php';
         <h1 class="text-2xl font-extrabold text-gray-900">Dashboard</h1>
         <p class="text-gray-400 text-sm mt-0.5"><?= date('l, d \d\e F \d\e Y') ?></p>
     </div>
-    <a href="/pizzaria/admin/pedidos.php"
+    <a href="<?= BASE ?>/admin/pedidos.php"
        class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-4 py-2.5 rounded-xl transition-colors shadow-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
@@ -264,7 +264,7 @@ include __DIR__ . '/includes/layout_top.php';
             <h2 class="font-extrabold text-gray-900">Últimos pedidos</h2>
             <p class="text-xs text-gray-400 mt-0.5">Os 10 pedidos mais recentes</p>
         </div>
-        <a href="/pizzaria/admin/pedidos.php"
+        <a href="<?= BASE ?>/admin/pedidos.php"
            class="text-xs text-red-600 hover:text-red-800 font-bold flex items-center gap-1 transition-colors">
             Ver kanban completo
             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">

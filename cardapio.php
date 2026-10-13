@@ -111,7 +111,7 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
     <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between gap-4">
 
         <!-- Logo -->
-        <a href="/pizzaria/" class="flex items-center gap-2.5 shrink-0">
+        <a href="<?= BASE ?>/" class="flex items-center gap-2.5 shrink-0">
             <span class="text-2xl leading-none">🍕</span>
             <div class="leading-none">
                 <span class="text-white font-black text-lg tracking-tight block">Bella Napoli</span>
@@ -121,14 +121,14 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
 
         <!-- Links centro -->
         <div class="hidden sm:flex items-center gap-5 flex-1 justify-center">
-            <a href="/pizzaria/"
+            <a href="<?= BASE ?>/"
                class="text-gray-400 hover:text-white text-sm font-medium transition-colors flex items-center gap-1">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
                 </svg>
                 Início
             </a>
-            <a href="/pizzaria/historico.php"
+            <a href="<?= BASE ?>/historico.php"
                class="text-gray-400 hover:text-white text-sm font-medium transition-colors flex items-center gap-1.5">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
@@ -153,7 +153,7 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
             <?php endif; ?>
 
             <!-- Carrinho -->
-            <a href="/pizzaria/carrinho.php"
+            <a href="<?= BASE ?>/carrinho.php"
                class="relative flex items-center gap-2 bg-red-600 hover:bg-red-700 transition-colors text-white font-bold px-4 py-2.5 rounded-full shadow-lg shadow-red-900/30 text-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round"

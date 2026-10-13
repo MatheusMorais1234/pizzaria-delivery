@@ -136,7 +136,7 @@ include __DIR__ . '/includes/layout_top.php';
             <p class="text-xs text-gray-400 mt-0.5">Defina o horário de cada dia individualmente. Dias desligados ficam fechados.</p>
         </div>
 
-        <form method="POST" action="/pizzaria/admin/configuracoes.php">
+        <form method="POST" action="<?= BASE ?>/admin/configuracoes.php">
             <input type="hidden" name="acao" value="horarios">
 
             <div class="divide-y divide-gray-50">
@@ -215,7 +215,7 @@ include __DIR__ . '/includes/layout_top.php';
         <h2 class="font-extrabold text-gray-900 mb-1">Configurações gerais</h2>
         <p class="text-xs text-gray-400 mb-5">Override manual e tempo de entrega</p>
 
-        <form method="POST" action="/pizzaria/admin/configuracoes.php" class="space-y-5">
+        <form method="POST" action="<?= BASE ?>/admin/configuracoes.php" class="space-y-5">
             <input type="hidden" name="acao" value="geral">
 
             <!-- Override: fechar a loja manualmente -->
@@ -321,7 +321,7 @@ include __DIR__ . '/includes/layout_top.php';
         <h2 class="font-extrabold text-gray-900 mb-1">Taxas do cartão</h2>
         <p class="text-xs text-gray-400 mb-5">Percentual cobrado pela maquininha repassado ao cliente no checkout. Deixe 0 para não cobrar taxa.</p>
 
-        <form method="POST" action="/pizzaria/admin/configuracoes.php" class="space-y-4">
+        <form method="POST" action="<?= BASE ?>/admin/configuracoes.php" class="space-y-4">
             <input type="hidden" name="acao" value="pagamentos">
 
             <div class="grid grid-cols-2 gap-4">
@@ -365,7 +365,7 @@ include __DIR__ . '/includes/layout_top.php';
         <h2 class="font-extrabold text-gray-900 mb-1">Informações de contato</h2>
         <p class="text-xs text-gray-400 mb-5">Exibidas na landing page e no footer</p>
 
-        <form method="POST" action="/pizzaria/admin/configuracoes.php" class="space-y-4">
+        <form method="POST" action="<?= BASE ?>/admin/configuracoes.php" class="space-y-4">
             <input type="hidden" name="acao" value="contato">
 
             <div class="grid sm:grid-cols-2 gap-4">
@@ -424,7 +424,7 @@ include __DIR__ . '/includes/layout_top.php';
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">URL da foto do pizzaiolo <span class="text-gray-400 font-normal">(seção Sobre nós)</span></label>
                 <input type="text" name="imagem_pizzaiolo"
                        value="<?= htmlspecialchars(getConfig('imagem_pizzaiolo','')) ?>"
-                       placeholder="https://... ou /pizzaria/uploads/..."
+                       placeholder="https://... ou <?= BASE ?>/uploads/..."
                        class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-400">
             </div>
 
@@ -440,7 +440,7 @@ include __DIR__ . '/includes/layout_top.php';
         <h2 class="font-extrabold text-gray-900 mb-1">Textos da landing page</h2>
         <p class="text-xs text-gray-400 mb-5">Benefício para aniversariantes e dados do "Sobre nós"</p>
 
-        <form method="POST" action="/pizzaria/admin/configuracoes.php" class="space-y-4">
+        <form method="POST" action="<?= BASE ?>/admin/configuracoes.php" class="space-y-4">
             <input type="hidden" name="acao" value="landing">
 
             <div>

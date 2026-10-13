@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir
     if ($idDel) {
         $pdo->prepare('DELETE FROM combos WHERE id = ?')->execute([$idDel]);
     }
-    header('Location: /pizzaria/admin/combos.php?excluido=1');
+    header('Location: ' . BASE . '/admin/combos.php?excluido=1');
     exit;
 }
 
@@ -39,7 +39,7 @@ include __DIR__ . '/includes/layout_top.php';
         <h1 class="text-2xl font-extrabold text-gray-900">Combos</h1>
         <p class="text-gray-500 text-sm mt-0.5"><?= count($combos) ?> combo<?= count($combos) !== 1 ? 's' : '' ?> cadastrado<?= count($combos) !== 1 ? 's' : '' ?></p>
     </div>
-    <a href="/pizzaria/admin/combo-form.php"
+    <a href="<?= BASE ?>/admin/combo-form.php"
        class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2.5 rounded-xl transition-colors text-sm shadow-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
@@ -74,7 +74,7 @@ include __DIR__ . '/includes/layout_top.php';
     </div>
     <h3 class="text-lg font-bold text-gray-800 mb-1">Nenhum combo cadastrado</h3>
     <p class="text-gray-400 text-sm mb-5">Crie seu primeiro combo promocional para atrair mais clientes.</p>
-    <a href="/pizzaria/admin/combo-form.php"
+    <a href="<?= BASE ?>/admin/combo-form.php"
        class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm shadow-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
@@ -162,7 +162,7 @@ include __DIR__ . '/includes/layout_top.php';
                     <!-- Ações -->
                     <td class="px-5 py-4 text-right">
                         <div class="flex items-center justify-end gap-2">
-                            <a href="/pizzaria/admin/combo-form.php?id=<?= $c['id'] ?>"
+                            <a href="<?= BASE ?>/admin/combo-form.php?id=<?= $c['id'] ?>"
                                class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg font-semibold transition-colors">
                                 Editar
                             </a>

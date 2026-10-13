@@ -3,7 +3,7 @@ session_start();
 
 // Já logado → vai pro dashboard
 if (!empty($_SESSION['admin_id'])) {
-    header('Location: /pizzaria/admin/dashboard.php');
+    header('Location: ' . BASE . '/admin/dashboard.php');
     exit;
 }
 
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_regenerate_id(true);
             $_SESSION['admin_id']    = $admin['id'];
             $_SESSION['admin_email'] = $email;
-            header('Location: /pizzaria/admin/dashboard.php');
+            header('Location: ' . BASE . '/admin/dashboard.php');
             exit;
         }
 

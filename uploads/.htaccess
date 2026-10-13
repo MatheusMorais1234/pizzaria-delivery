@@ -1,0 +1,6 @@
+# Pasta de imagens enviadas pelo painel: nada aqui pode ser executado.
+<FilesMatch "\.(php|phtml|phar|php[0-9]|pl|py|cgi|sh)$">
+    Require all denied
+</FilesMatch>
+Options -Indexes -ExecCGI
+php_flag engine off

@@ -100,7 +100,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             <p class="text-gray-600 text-xs font-semibold uppercase tracking-widest px-3 mb-2">Menu</p>
 
             <!-- Dashboard -->
-            <a href="/pizzaria/admin/dashboard.php"
+            <a href="<?= BASE ?>/admin/dashboard.php"
                class="nav-item <?= navAtivo('dashboard', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700 text-base">
                     <!-- chart-bar icon -->
@@ -112,7 +112,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Pedidos -->
-            <a href="/pizzaria/admin/pedidos.php"
+            <a href="<?= BASE ?>/admin/pedidos.php"
                class="nav-item <?= navAtivo('pedidos', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700 text-base">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -128,7 +128,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Categorias -->
-            <a href="/pizzaria/admin/categorias.php"
+            <a href="<?= BASE ?>/admin/categorias.php"
                class="nav-item <?= navAtivo('categorias', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700 text-base">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -139,7 +139,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Produtos -->
-            <a href="/pizzaria/admin/produtos.php"
+            <a href="<?= BASE ?>/admin/produtos.php"
                class="nav-item <?= navAtivo(['produtos','produto-form'], $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700 text-base">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -150,7 +150,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Adicionais -->
-            <a href="/pizzaria/admin/adicionais.php"
+            <a href="<?= BASE ?>/admin/adicionais.php"
                class="nav-item <?= navAtivo('adicionais', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700 text-base">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -161,7 +161,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Combos -->
-            <a href="/pizzaria/admin/combos.php"
+            <a href="<?= BASE ?>/admin/combos.php"
                class="nav-item <?= navAtivo(['combos','combo-form'], $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700 text-base">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -172,7 +172,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Histórico -->
-            <a href="/pizzaria/admin/historico.php"
+            <a href="<?= BASE ?>/admin/historico.php"
                class="nav-item <?= navAtivo('historico', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700 text-base">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -183,7 +183,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Avaliações -->
-            <a href="/pizzaria/admin/avaliacoes.php"
+            <a href="<?= BASE ?>/admin/avaliacoes.php"
                class="nav-item <?= navAtivo('avaliacoes', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -194,7 +194,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Relatório Bairros -->
-            <a href="/pizzaria/admin/relatorio-bairros.php"
+            <a href="<?= BASE ?>/admin/relatorio-bairros.php"
                class="nav-item <?= navAtivo('relatorio-bairros', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -205,7 +205,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Cupons -->
-            <a href="/pizzaria/admin/cupons.php"
+            <a href="<?= BASE ?>/admin/cupons.php"
                class="nav-item <?= navAtivo('cupons', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700 text-base">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -216,7 +216,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Fidelidade -->
-            <a href="/pizzaria/admin/fidelidade.php"
+            <a href="<?= BASE ?>/admin/fidelidade.php"
                class="nav-item <?= navAtivo('fidelidade', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -227,7 +227,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Bairros -->
-            <a href="/pizzaria/admin/bairros.php"
+            <a href="<?= BASE ?>/admin/bairros.php"
                class="nav-item <?= navAtivo('bairros', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -238,7 +238,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- QR Codes -->
-            <a href="/pizzaria/admin/qrcodes.php"
+            <a href="<?= BASE ?>/admin/qrcodes.php"
                class="nav-item <?= navAtivo('qrcodes', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -249,7 +249,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
             </a>
 
             <!-- Configurações -->
-            <a href="/pizzaria/admin/configuracoes.php"
+            <a href="<?= BASE ?>/admin/configuracoes.php"
                class="nav-item <?= navAtivo('configuracoes', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-300 hover:text-white group">
                 <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -264,7 +264,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
                 <p class="text-gray-600 text-xs font-semibold uppercase tracking-widest px-3 mb-2">Atalhos</p>
 
                 <!-- Novo pedido manual -->
-                <a href="/pizzaria/admin/pedido-manual.php"
+                <a href="<?= BASE ?>/admin/pedido-manual.php"
                    class="nav-item <?= navAtivo('pedido-manual', $paginaAtual) ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white group">
                     <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-green-700">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -274,7 +274,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
                     <span class="font-medium text-sm">Pedido WhatsApp</span>
                 </a>
 
-                <a href="/pizzaria/" target="_blank"
+                <a href="<?= BASE ?>/" target="_blank"
                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white group">
                     <span class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 group-hover:bg-gray-700">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -297,7 +297,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
                     <p class="text-gray-500 text-xs">Administrador</p>
                 </div>
             </div>
-            <a href="/pizzaria/admin/logout.php"
+            <a href="<?= BASE ?>/admin/logout.php"
                class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition-colors text-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>

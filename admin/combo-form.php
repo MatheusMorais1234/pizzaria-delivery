@@ -26,7 +26,7 @@ if ($id) {
     $stmt->execute([$id]);
     $combo = $stmt->fetch();
     if (!$combo) {
-        header('Location: /pizzaria/admin/combos.php');
+        header('Location: ' . BASE . '/admin/combos.php');
         exit;
     }
 }
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = (int) $pdo->lastInsertId();
         }
 
-        header('Location: /pizzaria/admin/combo-form.php?id=' . $id . '&salvo=1');
+        header('Location: ' . BASE . '/admin/combo-form.php?id=' . $id . '&salvo=1');
         exit;
     }
 
@@ -117,7 +117,7 @@ include __DIR__ . '/includes/layout_top.php';
 
 <!-- Breadcrumb -->
 <div class="flex items-center gap-2 text-sm text-gray-400 mb-6">
-    <a href="/pizzaria/admin/combos.php" class="hover:text-gray-700 transition-colors font-medium">Combos</a>
+    <a href="<?= BASE ?>/admin/combos.php" class="hover:text-gray-700 transition-colors font-medium">Combos</a>
     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
     </svg>
@@ -294,7 +294,7 @@ include __DIR__ . '/includes/layout_top.php';
                         class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-sm">
                     <?= $modoEdicao ? 'Salvar alterações' : 'Criar combo' ?>
                 </button>
-                <a href="/pizzaria/admin/combos.php"
+                <a href="<?= BASE ?>/admin/combos.php"
                    class="px-5 py-3 border border-gray-200 text-gray-600 font-semibold rounded-xl hover:bg-gray-50 transition-colors text-center text-sm">
                     Cancelar
                 </a>
