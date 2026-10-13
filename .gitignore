@@ -1,0 +1,8 @@
+# Configuracao local com senha do banco (modelo: includes/config.local.example.php)
+includes/config.local.php
+
+# Configuracao local do Claude Code
+.claude/settings.local.json
+
+# Uploads feitos pelo painel
+uploads/
