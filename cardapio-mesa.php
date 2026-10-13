@@ -718,7 +718,7 @@ async function enviarPedido() {
     };
 
     try {
-        const res  = await fetch('/pizzaria/api/pedido.php', {
+        const res  = await fetch('<?= BASE ?>/api/pedido.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify(payload),
@@ -738,7 +738,7 @@ async function enviarPedido() {
             document.getElementById('sucesso-pedido-numero').textContent = 'Pedido #' + pedidoId;
             const linkEl = document.getElementById('sucesso-link-acompanhar');
             salvarMeuPedido(pedidoId, data.token);
-            linkEl.href = '/pizzaria/acompanhar.php?id=' + pedidoId + '&t=' + encodeURIComponent(data.token);
+            linkEl.href = '<?= BASE ?>/acompanhar.php?id=' + pedidoId + '&t=' + encodeURIComponent(data.token);
             document.getElementById('tela-sucesso').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         } else {

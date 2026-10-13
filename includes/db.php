@@ -1,9 +1,8 @@
 <?php
 // Conexão PDO com o banco de dados MySQL
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'pizzaria');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+// Endereco base e credenciais do banco moram em config.local.php, fora
+// do Git. Modelo: includes/config.local.example.php
+require_once __DIR__ . '/base.php';
 define('DB_CHARSET', 'utf8mb4');
 
 function getPDO(): PDO {

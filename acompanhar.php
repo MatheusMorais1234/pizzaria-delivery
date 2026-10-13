@@ -6,7 +6,7 @@ require_once __DIR__ . '/includes/config.php';
 $pedidoId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $token    = (string) ($_GET['t'] ?? '');
 if (!$pedidoId) {
-    header('Location: /pizzaria/');
+    header('Location: ' . BASE . '/');
     exit;
 }
 
@@ -25,7 +25,7 @@ $podeVer = $pedido && (
     || !empty($_SESSION['admin_id'])
 );
 if (!$podeVer) {
-    header('Location: /pizzaria/');
+    header('Location: ' . BASE . '/');
     exit;
 }
 
@@ -75,7 +75,7 @@ include __DIR__ . '/includes/header.php';
 <!-- NAVBAR -->
 <nav class="bg-red-600 shadow-lg">
     <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="/pizzaria/" class="text-white font-bold text-xl">🍕 Bella Napoli</a>
+        <a href="<?= BASE ?>/" class="text-white font-bold text-xl">🍕 Bella Napoli</a>
         <span class="text-red-200 text-sm">Acompanhe seu pedido</span>
     </div>
 </nav>
@@ -140,7 +140,7 @@ include __DIR__ . '/includes/header.php';
             <p class="text-gray-500 text-sm text-center">Infelizmente seu pedido foi cancelado pela loja.</p>
             <?php endif; ?>
 
-            <a href="/pizzaria/cardapio.php"
+            <a href="<?= BASE ?>/cardapio.php"
                class="mt-5 w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors text-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m12-9l2 9M9 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z"/>
@@ -380,7 +380,7 @@ let statusAnterior = null; // rastreia mudanças para notificações
 
 async function verificarStatus() {
     try {
-        const res  = await fetch('/pizzaria/api/status.php?id=' + pedidoId + '&t=' + encodeURIComponent(pedidoToken));
+        const res  = await fetch('<?= BASE ?>/api/status.php?id=' + pedidoId + '&t=' + encodeURIComponent(pedidoToken));
         const data = await res.json();
 
         // Notifica mudança de status (nunca na primeira verificação)
@@ -417,8 +417,8 @@ function notificarMudancaStatus(novoStatus) {
     try {
         new Notification('Bella Napoli 🍕', {
             body: msg,
-            icon: '/pizzaria/assets/icon-192.png',
-            badge: '/pizzaria/assets/icon-192.png',
+            icon: '<?= BASE ?>/assets/icon-192.png',
+            badge: '<?= BASE ?>/assets/icon-192.png',
             tag: 'pedido-status',
             renotify: true,
         });
@@ -483,7 +483,7 @@ async function enviarAvaliacao() {
     btn.textContent = 'Enviando…';
     const comentario = document.getElementById('av-comentario').value.trim();
     try {
-        const res = await fetch('/pizzaria/api/avaliacao.php?id=' + pedidoId + '&t=' + encodeURIComponent(pedidoToken), {
+        const res = await fetch('<?= BASE ?>/api/avaliacao.php?id=' + pedidoId + '&t=' + encodeURIComponent(pedidoToken), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nota: notaSelecionada, comentario })

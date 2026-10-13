@@ -18,21 +18,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($id > 0) {
                 $pdo->prepare('UPDATE adicionais SET nome=?, preco=?, ativo=? WHERE id=?')
                     ->execute([$nome, $preco, $ativo, $id]);
-                header('Location: /pizzaria/admin/adicionais.php?msg=editado'); exit;
+                header('Location: ' . BASE . '/admin/adicionais.php?msg=editado'); exit;
             } else {
                 $pdo->prepare('INSERT INTO adicionais (nome, preco, ativo) VALUES (?,?,?)')
                     ->execute([$nome, $preco, $ativo]);
-                header('Location: /pizzaria/admin/adicionais.php?msg=criado'); exit;
+                header('Location: ' . BASE . '/admin/adicionais.php?msg=criado'); exit;
             }
         }
 
     } elseif ($acao === 'toggle' && $id > 0) {
         $pdo->prepare('UPDATE adicionais SET ativo = NOT ativo WHERE id=?')->execute([$id]);
-        header('Location: /pizzaria/admin/adicionais.php'); exit;
+        header('Location: ' . BASE . '/admin/adicionais.php'); exit;
 
     } elseif ($acao === 'deletar' && $id > 0) {
         $pdo->prepare('DELETE FROM adicionais WHERE id=?')->execute([$id]);
-        header('Location: /pizzaria/admin/adicionais.php?msg=removido'); exit;
+        header('Location: ' . BASE . '/admin/adicionais.php?msg=removido'); exit;
     }
 }
 
@@ -154,7 +154,7 @@ include __DIR__ . '/includes/layout_top.php';
             <button onclick="fecharModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 text-xl leading-none transition-colors">×</button>
         </div>
 
-        <form method="POST" action="/pizzaria/admin/adicionais.php" class="p-6 space-y-4">
+        <form method="POST" action="<?= BASE ?>/admin/adicionais.php" class="p-6 space-y-4">
             <input type="hidden" name="acao" value="salvar">
             <input type="hidden" name="id" id="modal-id" value="0">
 

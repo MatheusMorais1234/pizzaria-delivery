@@ -28,7 +28,7 @@ include __DIR__ . '/includes/header.php';
 <!-- ===== NAVBAR SIMPLIFICADA ===== -->
 <nav class="bg-red-600 shadow-lg">
     <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="/pizzaria/cardapio.php" class="flex items-center gap-2 text-white hover:text-red-200 transition-colors">
+        <a href="<?= BASE ?>/cardapio.php" class="flex items-center gap-2 text-white hover:text-red-200 transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
             </svg>
@@ -57,7 +57,7 @@ include __DIR__ . '/includes/header.php';
     <div id="carrinho-vazio" class="hidden text-center py-20">
         <div class="text-gray-300 text-8xl mb-6">🛒</div>
         <p class="text-gray-500 text-xl mb-6">Seu carrinho está vazio.</p>
-        <a href="/pizzaria/cardapio.php" class="bg-red-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors">
+        <a href="<?= BASE ?>/cardapio.php" class="bg-red-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors">
             Ver cardápio
         </a>
     </div>
@@ -762,7 +762,7 @@ async function aplicarCupom() {
     btn.textContent = '…';
 
     try {
-        const res  = await fetch('/pizzaria/api/cupom.php', {
+        const res  = await fetch('<?= BASE ?>/api/cupom.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ codigo, total: subtotal })
@@ -1067,7 +1067,7 @@ document.getElementById('btn-confirmar').addEventListener('click', async () => {
     };
 
     try {
-        const res  = await fetch('/pizzaria/api/pedido.php', {
+        const res  = await fetch('<?= BASE ?>/api/pedido.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -1086,7 +1086,7 @@ document.getElementById('btn-confirmar').addEventListener('click', async () => {
                 } catch (e) {}
             }
             salvarMeuPedido(data.pedido_id, data.token);
-            window.location.href = '/pizzaria/acompanhar.php?id=' + data.pedido_id + '&t=' + encodeURIComponent(data.token);
+            window.location.href = '<?= BASE ?>/acompanhar.php?id=' + data.pedido_id + '&t=' + encodeURIComponent(data.token);
         } else {
             fecharModal();
             mostrarErro(data.mensagem || 'Erro ao enviar pedido.');
@@ -1114,7 +1114,7 @@ function mostrarErro(msg, cor = '') {
 let bairrosData = [];
 async function carregarBairros() {
     try {
-        const res = await fetch('/pizzaria/api/bairros.php');
+        const res = await fetch('<?= BASE ?>/api/bairros.php');
         bairrosData = await res.json();
         const sel = document.getElementById('end_bairro');
         if (!sel) return;
@@ -1155,7 +1155,7 @@ if (FIDELIDADE_ATIVO) {
         const tel = this.value.replace(/\D/g, '');
         if (tel.length < 8) return;
         try {
-            const res  = await fetch('/pizzaria/api/fidelidade.php?acao=consultar&telefone=' + encodeURIComponent(tel));
+            const res  = await fetch('<?= BASE ?>/api/fidelidade.php?acao=consultar&telefone=' + encodeURIComponent(tel));
             const data = await res.json();
             const bloco = document.getElementById('bloco-fidelidade');
             if (!bloco) return;

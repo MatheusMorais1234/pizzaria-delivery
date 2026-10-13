@@ -120,7 +120,7 @@ include __DIR__ . '/includes/layout_top.php';
                         <?= $editando ? 'Salvar alterações' : 'Cadastrar bairro' ?>
                     </button>
                     <?php if ($editando): ?>
-                    <a href="/pizzaria/admin/bairros.php"
+                    <a href="<?= BASE ?>/admin/bairros.php"
                        class="px-4 py-2.5 border border-gray-200 text-gray-600 font-semibold rounded-xl hover:bg-gray-50 transition-colors text-sm text-center">
                         Cancelar
                     </a>
@@ -178,7 +178,7 @@ include __DIR__ . '/includes/layout_top.php';
                         </td>
                         <td class="px-5 py-3.5 text-right">
                             <div class="flex items-center gap-2 justify-end">
-                                <a href="/pizzaria/admin/bairros.php?editar=<?= $b['id'] ?>"
+                                <a href="<?= BASE ?>/admin/bairros.php?editar=<?= $b['id'] ?>"
                                    class="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors px-2 py-1 rounded-lg hover:bg-blue-50">
                                     Editar
                                 </a>

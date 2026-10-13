@@ -65,7 +65,7 @@ include __DIR__ . '/includes/header.php';
 <!-- NAVBAR -->
 <nav class="bg-red-600 shadow-lg">
     <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="/pizzaria/" class="text-white font-bold text-xl">🍕 Bella Napoli</a>
+        <a href="<?= BASE ?>/" class="text-white font-bold text-xl">🍕 Bella Napoli</a>
         <span class="text-red-200 text-sm">Meus Pedidos</span>
     </div>
 </nav>
@@ -95,7 +95,7 @@ include __DIR__ . '/includes/header.php';
             <div class="text-6xl mb-4">📭</div>
             <p class="font-semibold text-lg">Nenhum pedido feito neste aparelho</p>
             <p class="text-sm mt-1">Seus próximos pedidos vão aparecer aqui automaticamente.</p>
-            <a href="/pizzaria/cardapio.php" class="mt-6 inline-block bg-red-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-700 transition-colors">
+            <a href="<?= BASE ?>/cardapio.php" class="mt-6 inline-block bg-red-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-700 transition-colors">
                 Fazer um pedido
             </a>
         </div>
@@ -143,7 +143,7 @@ include __DIR__ . '/includes/header.php';
                         📍 <?= htmlspecialchars($p['endereco']) ?>
                     </p>
                     <?php if ($p['status'] !== 'entregue'): ?>
-                    <a href="/pizzaria/acompanhar.php?id=<?= (int) $p['id'] ?>&amp;t=<?= htmlspecialchars($p['token']) ?>"
+                    <a href="<?= BASE ?>/acompanhar.php?id=<?= (int) $p['id'] ?>&amp;t=<?= htmlspecialchars($p['token']) ?>"
                        class="text-xs bg-red-50 hover:bg-red-100 text-red-700 font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors">
                         Acompanhar →
                     </a>

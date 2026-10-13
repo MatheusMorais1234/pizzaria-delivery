@@ -13,13 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($acao === 'toggle') {
         $id = filter_var($_POST['id'] ?? 0, FILTER_VALIDATE_INT);
         if ($id) $pdo->prepare('UPDATE cupons SET ativo = NOT ativo WHERE id = ?')->execute([$id]);
-        header('Location: /pizzaria/admin/cupons.php?ok=toggle'); exit;
+        header('Location: ' . BASE . '/admin/cupons.php?ok=toggle'); exit;
     }
 
     if ($acao === 'excluir') {
         $id = filter_var($_POST['id'] ?? 0, FILTER_VALIDATE_INT);
         if ($id) $pdo->prepare('DELETE FROM cupons WHERE id = ?')->execute([$id]);
-        header('Location: /pizzaria/admin/cupons.php?ok=excluir'); exit;
+        header('Location: ' . BASE . '/admin/cupons.php?ok=excluir'); exit;
     }
 
     if ($acao === 'salvar') {
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $erros[] = 'Código já existe. Escolha outro.';
                 }
             }
-            if (empty($erros)) { header('Location: /pizzaria/admin/cupons.php?ok=salvo'); exit; }
+            if (empty($erros)) { header('Location: ' . BASE . '/admin/cupons.php?ok=salvo'); exit; }
         }
     }
 }

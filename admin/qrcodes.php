@@ -17,7 +17,7 @@ $numMesas = max(1, (int) getConfig('num_mesas', '10'));
 
 // URL base
 $host    = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost');
-$baseUrl = $host . '/pizzaria/cardapio-mesa.php';
+$baseUrl = $host . '<?= BASE ?>/cardapio-mesa.php';
 
 $pageTitle = 'QR Codes das Mesas — Bella Napoli Admin';
 include __DIR__ . '/includes/layout_top.php';
@@ -55,7 +55,7 @@ include __DIR__ . '/includes/layout_top.php';
             <h2 class="font-extrabold text-gray-900 mb-1">Configuração</h2>
             <p class="text-xs text-gray-400 mb-4">Defina quantas mesas gerar QR Codes</p>
 
-            <form method="POST" action="/pizzaria/admin/qrcodes.php" class="space-y-4">
+            <form method="POST" action="<?= BASE ?>/admin/qrcodes.php" class="space-y-4">
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">Número de mesas</label>
                     <input type="number" name="num_mesas" min="1" max="100" value="<?= $numMesas ?>"

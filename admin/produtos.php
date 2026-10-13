@@ -7,7 +7,7 @@ $pdo = getPDO();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_id'])) {
     $id = filter_var($_POST['toggle_id'], FILTER_VALIDATE_INT);
     if ($id) $pdo->prepare('UPDATE produtos SET ativo = NOT ativo WHERE id = ?')->execute([$id]);
-    header('Location: /pizzaria/admin/produtos.php');
+    header('Location: ' . BASE . '/admin/produtos.php');
     exit;
 }
 
@@ -28,7 +28,7 @@ include __DIR__ . '/includes/layout_top.php';
         <h1 class="text-2xl font-extrabold text-gray-900">Produtos</h1>
         <p class="text-gray-500 text-sm mt-0.5"><?= count($produtos) ?> produtos cadastrados</p>
     </div>
-    <a href="/pizzaria/admin/produto-form.php"
+    <a href="<?= BASE ?>/admin/produto-form.php"
        class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2.5 rounded-xl transition-colors text-sm shadow-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
@@ -96,7 +96,7 @@ include __DIR__ . '/includes/layout_top.php';
                     <?php endif; ?>
                 </div>
                 <div class="flex gap-2 items-center">
-                    <a href="/pizzaria/admin/produto-form.php?id=<?= $p['id'] ?>"
+                    <a href="<?= BASE ?>/admin/produto-form.php?id=<?= $p['id'] ?>"
                        class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg font-semibold transition-colors">
                         Editar
                     </a>

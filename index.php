@@ -169,7 +169,7 @@ $diaAtual        = (int) date('w');
 
             <!-- CTA + hamburger -->
             <div class="flex items-center gap-3">
-                <a href="/pizzaria/cardapio.php"
+                <a href="<?= BASE ?>/cardapio.php"
                    class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-full transition-colors shadow-lg whitespace-nowrap">
                     🍕 Ver Cardápio
                 </a>
@@ -229,7 +229,7 @@ $diaAtual        = (int) date('w');
             O sabor que sua família merece, entregue rapidinho na sua porta.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 fade-in delay-3">
-            <a href="/pizzaria/cardapio.php"
+            <a href="<?= BASE ?>/cardapio.php"
                class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-extrabold px-9 py-4 rounded-full text-base transition-all shadow-2xl hover:shadow-red-500/25 hover:-translate-y-0.5">
                 🍕 Ver Cardápio Completo
             </a>
@@ -424,7 +424,7 @@ $diaAtual        = (int) date('w');
                             <?php endif; ?>
                             <p class="text-red-600 font-black text-2xl font-display">R$ <?= number_format($c['preco_combo'], 2, ',', '.') ?></p>
                         </div>
-                        <a href="/pizzaria/cardapio.php"
+                        <a href="<?= BASE ?>/cardapio.php"
                            class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-3 rounded-full transition-colors shadow-md shadow-red-100">
                             Pedir →
                         </a>
@@ -469,7 +469,7 @@ $diaAtual        = (int) date('w');
                         <span class="text-red-600 font-black text-xl">R$ <?= number_format($precoFinal, 2, ',', '.') ?></span>
                         <span class="text-gray-400 text-sm line-through">R$ <?= number_format($p['preco'], 2, ',', '.') ?></span>
                     </div>
-                    <a href="/pizzaria/cardapio.php"
+                    <a href="<?= BASE ?>/cardapio.php"
                        class="block w-full text-center bg-red-600 hover:bg-red-700 text-white font-bold text-sm py-2.5 rounded-xl transition-colors">
                         Aproveitar
                     </a>
@@ -494,7 +494,7 @@ $diaAtual        = (int) date('w');
                     <p class="text-gray-500 text-sm mb-4 leading-relaxed line-clamp-2"><?= htmlspecialchars($p['descricao']) ?></p>
                     <div class="flex items-center justify-between">
                         <span class="text-red-600 font-black text-xl">R$ <?= number_format($p['preco'], 2, ',', '.') ?></span>
-                        <a href="/pizzaria/cardapio.php"
+                        <a href="<?= BASE ?>/cardapio.php"
                            class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-5 py-2 rounded-full transition-colors">
                             Pedir
                         </a>
@@ -506,7 +506,7 @@ $diaAtual        = (int) date('w');
         <?php endif; ?>
 
         <div class="text-center mt-12 fade-in">
-            <a href="/pizzaria/cardapio.php"
+            <a href="<?= BASE ?>/cardapio.php"
                class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-10 py-4 rounded-full transition-all shadow-xl shadow-red-100 hover:-translate-y-0.5 text-base">
                 Ver cardápio completo
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -766,7 +766,7 @@ $diaAtual        = (int) date('w');
                     <li><a href="#aniversariantes" class="text-sm hover:text-white transition-colors">Aniversariantes</a></li>
                     <li><a href="#contato"         class="text-sm hover:text-white transition-colors">Contato</a></li>
                     <li>
-                        <a href="/pizzaria/cardapio.php"
+                        <a href="<?= BASE ?>/cardapio.php"
                            class="text-sm text-red-400 hover:text-red-300 font-semibold transition-colors">
                             🍕 Fazer pedido →
                         </a>

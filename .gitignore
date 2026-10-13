@@ -4,5 +4,6 @@ includes/config.local.php
 # Configuracao local do Claude Code
 .claude/settings.local.json
 
-# Uploads feitos pelo painel
-uploads/
+# Imagens enviadas pelo painel - so a protecao da pasta vai para o Git
+uploads/*
+!uploads/.htaccess

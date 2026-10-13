@@ -17,11 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($id > 0) {
                 $pdo->prepare('UPDATE categorias SET nome=?, ordem=? WHERE id=?')
                     ->execute([$nome, $ordem, $id]);
-                header('Location: /pizzaria/admin/categorias.php?msg=editado'); exit;
+                header('Location: ' . BASE . '/admin/categorias.php?msg=editado'); exit;
             } else {
                 $pdo->prepare('INSERT INTO categorias (nome, ordem) VALUES (?,?)')
                     ->execute([$nome, $ordem]);
-                header('Location: /pizzaria/admin/categorias.php?msg=criado'); exit;
+                header('Location: ' . BASE . '/admin/categorias.php?msg=criado'); exit;
             }
         }
 
@@ -31,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $temProdutos = (int) $stmtQtd->fetchColumn();
 
         if ($temProdutos > 0) {
-            header('Location: /pizzaria/admin/categorias.php?msg=com_produtos'); exit;
+            header('Location: ' . BASE . '/admin/categorias.php?msg=com_produtos'); exit;
         }
         $pdo->prepare('DELETE FROM categorias WHERE id=?')->execute([$id]);
-        header('Location: /pizzaria/admin/categorias.php?msg=removido'); exit;
+        header('Location: ' . BASE . '/admin/categorias.php?msg=removido'); exit;
     }
 }
 
@@ -123,7 +123,7 @@ include __DIR__ . '/includes/layout_top.php';
                 </td>
                 <td class="px-5 py-3.5 text-center">
                     <?php if ($c['total_produtos'] > 0): ?>
-                    <a href="/pizzaria/admin/produtos.php?categoria=<?= $c['id'] ?>"
+                    <a href="<?= BASE ?>/admin/produtos.php?categoria=<?= $c['id'] ?>"
                        class="inline-block bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full hover:bg-blue-100 transition-colors">
                         <?= $c['total_produtos'] ?> produto<?= $c['total_produtos'] != 1 ? 's' : '' ?>
                     </a>
@@ -172,7 +172,7 @@ include __DIR__ . '/includes/layout_top.php';
             <button onclick="fecharModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 text-xl leading-none transition-colors">×</button>
         </div>
 
-        <form method="POST" action="/pizzaria/admin/categorias.php" class="p-6 space-y-4">
+        <form method="POST" action="<?= BASE ?>/admin/categorias.php" class="p-6 space-y-4">
             <input type="hidden" name="acao" value="salvar">
             <input type="hidden" name="id" id="modal-id" value="0">
 

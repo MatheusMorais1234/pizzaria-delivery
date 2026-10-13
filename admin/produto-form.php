@@ -10,7 +10,7 @@ if ($id) {
     $stmt = $pdo->prepare('SELECT * FROM produtos WHERE id = ?');
     $stmt->execute([$id]);
     $produto = $stmt->fetch();
-    if (!$produto) { header('Location: /pizzaria/admin/produtos.php'); exit; }
+    if (!$produto) { header('Location: ' . BASE . '/admin/produtos.php'); exit; }
 }
 
 $categorias = $pdo->query('SELECT * FROM categorias ORDER BY ordem')->fetchAll();
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $arquivo = uniqid('prod_', true) . '.' . $ext;
             $destino = __DIR__ . '/../uploads/produtos/' . $arquivo;
             if (move_uploaded_file($upload['tmp_name'], $destino)) {
-                $imagemUrl = '/pizzaria/uploads/produtos/' . $arquivo;
+                $imagemUrl = BASE . '/uploads/produtos/' . $arquivo;
             } else {
                 $erros[] = 'Falha ao salvar a imagem. Verifique permissões da pasta.';
             }
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        header('Location: /pizzaria/admin/produto-form.php?id=' . $id . '&salvo=1');
+        header('Location: ' . BASE . '/admin/produto-form.php?id=' . $id . '&salvo=1');
         exit;
     }
     $produto = ['nome'=>$nome,'categoria_id'=>$catId,'descricao'=>$descricao,'preco'=>$preco,'imagem_url'=>$imagemUrl,'ativo'=>$ativo,'desconto_pct'=>$descontoPct,'estoque'=>$estoque];
@@ -122,7 +122,7 @@ include __DIR__ . '/includes/layout_top.php';
 
 <!-- Breadcrumb -->
 <div class="flex items-center gap-2 text-sm text-gray-400 mb-6">
-    <a href="/pizzaria/admin/produtos.php" class="hover:text-gray-700 transition-colors font-medium">Produtos</a>
+    <a href="<?= BASE ?>/admin/produtos.php" class="hover:text-gray-700 transition-colors font-medium">Produtos</a>
     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
     </svg>
@@ -401,7 +401,7 @@ include __DIR__ . '/includes/layout_top.php';
                         class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-sm">
                     <?= $id ? 'Salvar alterações' : 'Criar produto' ?>
                 </button>
-                <a href="/pizzaria/admin/produtos.php"
+                <a href="<?= BASE ?>/admin/produtos.php"
                    class="px-5 py-3 border border-gray-200 text-gray-600 font-semibold rounded-xl hover:bg-gray-50 transition-colors text-center text-sm">
                     Cancelar
                 </a>
@@ -461,7 +461,7 @@ function limparImagem() {
 }
 
 // Detecta se já há imagem carregada por upload (editando produto com imagem local)
-<?php if (!empty($produto['imagem_url']) && str_starts_with($produto['imagem_url'] ?? '', '/pizzaria/uploads/')): ?>
+<?php if (!empty($produto['imagem_url']) && str_starts_with($produto['imagem_url'] ?? '', BASE . '/uploads/')): ?>
 setTab('upload');
 <?php endif; ?>
 

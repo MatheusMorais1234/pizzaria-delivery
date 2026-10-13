@@ -117,7 +117,7 @@ include __DIR__ . '/includes/layout_top.php';
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-6">
     <div class="flex flex-wrap gap-2 items-center">
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest mr-1">Filtrar:</span>
-        <a href="/pizzaria/admin/avaliacoes.php"
+        <a href="<?= BASE ?>/admin/avaliacoes.php"
            class="px-4 py-1.5 rounded-full text-sm font-semibold transition-all
                   <?= !$filtroNota ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' ?>">
             Todas
