@@ -828,9 +828,9 @@ function imprimirComanda(pedidoId) {
 
     const itensHtml = (pedido.itens || []).map(i => {
         const sems = (i.ingredientes_removidos || []).length
-            ? `<div style="font-size:11px;color:#555;margin-left:12px">sem ${i.ingredientes_removidos.join(', ')}</div>` : '';
+            ? `<div style="font-size:11px;color:#555;margin-left:12px">sem ${i.ingredientes_removidos.map(esc).join(', ')}</div>` : '';
         const adds = (i.adicionais || []).map(a =>
-            `<div style="font-size:11px;color:#555;margin-left:12px">+ ${a.nome} (+R$ ${fmtBRL(a.preco)})</div>`).join('');
+            `<div style="font-size:11px;color:#555;margin-left:12px">+ ${esc(a.nome)} (+R$ ${fmtBRL(a.preco)})</div>`).join('');
         return `<tr>
             <td style="padding:5px 4px;border-bottom:1px dashed #ddd;vertical-align:top">
                 <strong>${i.quantidade}×</strong> ${esc(i.nome)}${sems}${adds}
@@ -941,7 +941,7 @@ function abrirModal(p) {
     const itensHtml = itens.length
         ? itens.map(i => {
             const semIng = (i.ingredientes_removidos || []).length
-                ? `<p class="text-xs text-red-500 font-semibold mt-1">sem ${i.ingredientes_removidos.join(', ')}</p>` : '';
+                ? `<p class="text-xs text-red-500 font-semibold mt-1">sem ${i.ingredientes_removidos.map(esc).join(', ')}</p>` : '';
             const comAdd = (i.adicionais || []).length
                 ? `<div class="flex flex-wrap gap-1 mt-1">${(i.adicionais).map(a =>
                     `<span class="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">+ ${esc(a.nome)} +R$ ${fmtBRL(a.preco)}</span>`
