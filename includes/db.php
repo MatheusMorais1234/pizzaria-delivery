@@ -23,7 +23,7 @@ function getPDO(): PDO {
 // Versao do esquema. Ao adicionar uma alteracao em _migrarBanco(),
 // aumente este numero: as migracoes so rodam quando ele muda, e nao
 // mais em toda requisicao.
-const SCHEMA_VERSAO = '3';
+const SCHEMA_VERSAO = '4';
 
 function _migrarSeNecessario(PDO $pdo): void {
     try {
@@ -131,4 +131,7 @@ function _migrarBanco(PDO $pdo): void {
         falhas       INT UNSIGNED NOT NULL DEFAULT 0,
         ultima_falha DATETIME NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    // O painel cancela pedidos, mas 'cancelado' nao existia no ENUM: no MySQL
+    // estrito dava erro, e no nao estrito o status virava '' e o pedido sumia
+    try { $pdo->exec("ALTER TABLE pedidos MODIFY COLUMN status ENUM('pendente','em_preparo','saiu_entrega','entregue','cancelado') NOT NULL DEFAULT 'pendente'"); } catch (Exception $e) {}
 }
