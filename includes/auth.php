@@ -8,3 +8,7 @@ if (empty($_SESSION['admin_id'])) {
     header('Location: /pizzaria/admin/login.php');
     exit;
 }
+
+// Todo POST do painel precisa do token CSRF da sessao
+require_once __DIR__ . '/csrf.php';
+csrf_exigir();

@@ -17,6 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['erro' => 'Acesso negado']);
         exit;
     }
+    require_once __DIR__ . '/../includes/csrf.php';
+    if (!csrf_valido()) {
+        http_response_code(403);
+        echo json_encode(['erro' => 'Sessão expirada. Recarregue a página.']);
+        exit;
+    }
     $minutos = max(0, (int)($_POST['minutos'] ?? 0));
     setConfig('tempo_espera_atual', (string)$minutos);
     echo json_encode(['ok' => true, 'minutos' => $minutos]);

@@ -35,6 +35,33 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 2px; }
     </style>
+    <meta name="csrf-token" content="<?= htmlspecialchars(csrf_token()) ?>">
+    <script>
+    // Token CSRF em todo POST do painel, sem precisar mexer em cada tela:
+    // formularios ganham o campo "csrf" na hora do envio, e o fetch para o
+    // proprio site ganha o cabecalho X-CSRF-Token.
+    (function () {
+        const token = document.querySelector('meta[name="csrf-token"]').content;
+        document.addEventListener('submit', function (e) {
+            const f = e.target;
+            if ((f.method || '').toLowerCase() !== 'post' || f.querySelector('input[name="csrf"]')) return;
+            const i = document.createElement('input');
+            i.type = 'hidden'; i.name = 'csrf'; i.value = token;
+            f.appendChild(i);
+        }, true);
+        const fetchOriginal = window.fetch;
+        window.fetch = function (url, opts) {
+            opts = opts || {};
+            const metodo = (opts.method || 'GET').toUpperCase();
+            const mesmoSite = new URL(url, location.href).origin === location.origin;
+            if (metodo !== 'GET' && mesmoSite) {
+                opts.headers = new Headers(opts.headers || {});
+                opts.headers.set('X-CSRF-Token', token);
+            }
+            return fetchOriginal.call(this, url, opts);
+        };
+    })();
+    </script>
 </head>
 <body class="bg-gray-100 min-h-screen">
 
