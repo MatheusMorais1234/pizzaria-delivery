@@ -11,23 +11,54 @@ require_once __DIR__ . '/../includes/db.php';
 
 $erro = '';
 
+// Limite de tentativas: 5 erros seguidos do mesmo IP bloqueiam o login
+// por 15 minutos. Sem isso, um robo testaria senhas sem parar.
+const LOGIN_MAX_FALHAS = 5;
+const LOGIN_BLOQUEIO_MIN = 15;
+
+$pdo = getPDO();
+$ip  = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+$st  = $pdo->prepare('SELECT falhas, ultima_falha FROM admin_login_falhas WHERE ip = ?');
+$st->execute([$ip]);
+$reg = $st->fetch();
+$bloqueado = $reg
+    && (int) $reg['falhas'] >= LOGIN_MAX_FALHAS
+    && strtotime($reg['ultima_falha']) > time() - LOGIN_BLOQUEIO_MIN * 60;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $senha = $_POST['senha'] ?? '';
 
-    if ($email && $senha) {
-        $stmt = getPDO()->prepare('SELECT id, senha_hash FROM admins WHERE email = ?');
-        $stmt->execute([$email]);
-        $admin = $stmt->fetch();
+    if ($bloqueado) {
+        $erro = 'Muitas tentativas. Tente de novo em ' . LOGIN_BLOQUEIO_MIN . ' minutos.';
+    } else {
+        $admin = null;
+        if ($email && $senha) {
+            $stmt = $pdo->prepare('SELECT id, senha_hash FROM admins WHERE email = ?');
+            $stmt->execute([$email]);
+            $admin = $stmt->fetch();
+        }
 
         if ($admin && password_verify($senha, $admin['senha_hash'])) {
+            $pdo->prepare('DELETE FROM admin_login_falhas WHERE ip = ?')->execute([$ip]);
+            // Sessao nova ao entrar: um ID de sessao plantado antes do login
+            // (session fixation) deixa de valer.
+            session_regenerate_id(true);
             $_SESSION['admin_id']    = $admin['id'];
             $_SESSION['admin_email'] = $email;
             header('Location: /pizzaria/admin/dashboard.php');
             exit;
         }
+
+        // Falha antiga (passou o bloqueio) recomeça a contagem
+        $pdo->prepare('
+            INSERT INTO admin_login_falhas (ip, falhas, ultima_falha) VALUES (?, 1, NOW())
+            ON DUPLICATE KEY UPDATE
+                falhas = IF(ultima_falha < NOW() - INTERVAL ? MINUTE, 1, falhas + 1),
+                ultima_falha = NOW()
+        ')->execute([$ip, LOGIN_BLOQUEIO_MIN]);
+        $erro = 'E-mail ou senha incorretos.';
     }
-    $erro = 'E-mail ou senha incorretos.';
 }
 
 $pageTitle = 'Login — Admin Bella Napoli';

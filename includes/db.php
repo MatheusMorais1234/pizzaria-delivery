@@ -24,7 +24,7 @@ function getPDO(): PDO {
 // Versao do esquema. Ao adicionar uma alteracao em _migrarBanco(),
 // aumente este numero: as migracoes so rodam quando ele muda, e nao
 // mais em toda requisicao.
-const SCHEMA_VERSAO = '2';
+const SCHEMA_VERSAO = '3';
 
 function _migrarSeNecessario(PDO $pdo): void {
     try {
@@ -126,4 +126,10 @@ function _migrarBanco(PDO $pdo): void {
     // Codigo secreto do pedido: o link de acompanhamento leva id + token,
     // para ninguem ver o pedido dos outros trocando o numero na URL
     try { $pdo->exec("ALTER TABLE pedidos ADD COLUMN token CHAR(32) DEFAULT NULL, ADD UNIQUE KEY uq_pedidos_token (token)"); } catch (Exception $e) {}
+    // Tentativas de login erradas por IP (limite no admin/login.php)
+    $pdo->exec("CREATE TABLE IF NOT EXISTS admin_login_falhas (
+        ip           VARCHAR(45) NOT NULL PRIMARY KEY,
+        falhas       INT UNSIGNED NOT NULL DEFAULT 0,
+        ultima_falha DATETIME NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 }

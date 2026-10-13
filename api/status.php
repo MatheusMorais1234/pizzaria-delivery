@@ -42,6 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['sucesso' => false, 'mensagem' => 'Não autorizado.']);
         exit;
     }
+    require_once __DIR__ . '/../includes/csrf.php';
+    csrf_exigir(true);
 
     $body   = json_decode(file_get_contents('php://input'), true);
     $id     = filter_var($body['pedido_id'] ?? 0, FILTER_VALIDATE_INT);
