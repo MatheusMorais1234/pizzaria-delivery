@@ -4,46 +4,51 @@ require_once __DIR__ . '/includes/db.php';
 
 $pageTitle = 'Meus Pedidos — Bella Napoli';
 
-$telefone = trim($_GET['tel'] ?? '');
-$pedidos  = [];
-$erro     = '';
+// "Meus pedidos" lista os pedidos feitos NESTE aparelho. O navegador
+// guarda id + codigo secreto de cada pedido (localStorage) e manda aqui
+// em ?p=id.token,id.token. So aparece o pedido cujo codigo confere.
+//
+// Antes a busca era por telefone, com LIKE parcial: qualquer pessoa via
+// os pedidos - e o endereco - de qualquer outra.
+$pares = [];
+foreach (explode(',', (string) ($_GET['p'] ?? '')) as $par) {
+    if (preg_match('/^(\d{1,10})\.([a-f0-9]{32})$/', trim($par), $m)) {
+        $pares[(int) $m[1]] = $m[2];
+    }
+}
+$pares   = array_slice($pares, 0, 30, true);
+$buscou  = isset($_GET['p']);
+$pedidos = [];
 
-if ($telefone) {
-    // Normaliza: mantém só dígitos para comparar
-    $telLimpo = preg_replace('/\D/', '', $telefone);
-    if (strlen($telLimpo) < 8) {
-        $erro = 'Digite um telefone válido.';
-    } else {
-        $pdo  = getPDO();
+if ($pares) {
+    $pdo  = getPDO();
+    $ph   = implode(',', array_fill(0, count($pares), '?'));
+    $stmt = $pdo->prepare("SELECT * FROM pedidos WHERE id IN ($ph) ORDER BY created_at DESC");
+    $stmt->execute(array_keys($pares));
+    $pedidos = array_values(array_filter(
+        $stmt->fetchAll(),
+        fn($p) => !empty($p['token']) && hash_equals($p['token'], $pares[(int) $p['id']])
+    ));
+
+    // Busca itens de cada pedido
+    if ($pedidos) {
+        $ids  = array_column($pedidos, 'id');
+        $ph   = implode(',', array_fill(0, count($ids), '?'));
         $stmt = $pdo->prepare("
-            SELECT p.*
-            FROM pedidos p
-            WHERE REGEXP_REPLACE(p.cliente_telefone, '[^0-9]', '') LIKE ?
-            ORDER BY p.created_at DESC
-            LIMIT 20
+            SELECT pi.pedido_id, pi.quantidade, pi.subtotal, pr.nome
+            FROM pedido_itens pi
+            JOIN produtos pr ON pr.id = pi.produto_id
+            WHERE pi.pedido_id IN ($ph)
         ");
-        $stmt->execute(['%' . $telLimpo . '%']);
-        $pedidos = $stmt->fetchAll();
-
-        // Busca itens de cada pedido
-        if ($pedidos) {
-            $ids  = array_column($pedidos, 'id');
-            $ph   = implode(',', array_fill(0, count($ids), '?'));
-            $stmt = $pdo->prepare("
-                SELECT pi.pedido_id, pi.quantidade, pi.subtotal, pr.nome
-                FROM pedido_itens pi
-                JOIN produtos pr ON pr.id = pi.produto_id
-                WHERE pi.pedido_id IN ($ph)
-            ");
-            $stmt->execute($ids);
-            $itensPorPedido = [];
-            foreach ($stmt->fetchAll() as $item) {
-                $itensPorPedido[$item['pedido_id']][] = $item;
-            }
-            foreach ($pedidos as &$p) {
-                $p['itens'] = $itensPorPedido[$p['id']] ?? [];
-            }
+        $stmt->execute($ids);
+        $itensPorPedido = [];
+        foreach ($stmt->fetchAll() as $item) {
+            $itensPorPedido[$item['pedido_id']][] = $item;
         }
+        foreach ($pedidos as &$p) {
+            $p['itens'] = $itensPorPedido[$p['id']] ?? [];
+        }
+        unset($p);
     }
 }
 
@@ -68,40 +73,28 @@ include __DIR__ . '/includes/header.php';
 <main class="max-w-2xl mx-auto px-4 py-10 flex-1 w-full">
 
     <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Meus Pedidos</h1>
-    <p class="text-gray-500 mb-8">Digite seu telefone para ver o histórico de pedidos.</p>
+    <p class="text-gray-500 mb-8">Os pedidos feitos neste aparelho aparecem aqui.</p>
 
-    <!-- Formulário de busca por telefone -->
-    <form method="GET" class="flex gap-3 mb-8">
-        <div class="relative flex-1">
-            <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                 fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-            <input type="tel" name="tel"
-                   value="<?= htmlspecialchars($telefone) ?>"
-                   placeholder="(11) 99999-9999"
-                   required
-                   class="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-400 bg-white">
-        </div>
-        <button type="submit"
-                class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition-colors">
-            Buscar
-        </button>
-    </form>
-
-    <?php if ($erro): ?>
-    <div class="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-sm mb-6">
-        <?= htmlspecialchars($erro) ?>
-    </div>
+    <?php if (!$buscou): ?>
+    <!-- O navegador sabe quais pedidos foram feitos daqui: manda a lista e recarrega -->
+    <script>
+    (function () {
+        let lista = [];
+        try { lista = JSON.parse(localStorage.getItem('pizzaria_meus_pedidos') || '[]'); } catch (e) {}
+        const p = lista
+            .filter(x => Number.isInteger(x.id) && /^[a-f0-9]{32}$/.test(x.token || ''))
+            .map(x => x.id + '.' + x.token).join(',');
+        location.replace('?p=' + encodeURIComponent(p));
+    })();
+    </script>
     <?php endif; ?>
 
-    <?php if ($telefone && !$erro): ?>
+    <?php if ($buscou): ?>
         <?php if (empty($pedidos)): ?>
         <div class="text-center py-16 text-gray-400">
             <div class="text-6xl mb-4">📭</div>
-            <p class="font-semibold text-lg">Nenhum pedido encontrado</p>
-            <p class="text-sm mt-1">para o telefone <strong><?= htmlspecialchars($telefone) ?></strong></p>
+            <p class="font-semibold text-lg">Nenhum pedido feito neste aparelho</p>
+            <p class="text-sm mt-1">Seus próximos pedidos vão aparecer aqui automaticamente.</p>
             <a href="/pizzaria/cardapio.php" class="mt-6 inline-block bg-red-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-700 transition-colors">
                 Fazer um pedido
             </a>
@@ -150,7 +143,7 @@ include __DIR__ . '/includes/header.php';
                         📍 <?= htmlspecialchars($p['endereco']) ?>
                     </p>
                     <?php if ($p['status'] !== 'entregue'): ?>
-                    <a href="/pizzaria/acompanhar.php?id=<?= $p['id'] ?>"
+                    <a href="/pizzaria/acompanhar.php?id=<?= (int) $p['id'] ?>&amp;t=<?= htmlspecialchars($p['token']) ?>"
                        class="text-xs bg-red-50 hover:bg-red-100 text-red-700 font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors">
                         Acompanhar →
                     </a>

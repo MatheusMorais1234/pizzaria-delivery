@@ -264,12 +264,15 @@ try {
         $pontosGanhos = (int) floor($total / $reaisporPonto);
     }
 
+    // Codigo secreto do pedido: so quem tem o link (id + token) acompanha
+    $token = bin2hex(random_bytes(16));
+
     // Insere pedido
     $stmt = $pdo->prepare('
-        INSERT INTO pedidos (cliente_nome, cliente_telefone, endereco, observacao, total, cupom_codigo, desconto_cupom, tipo_entrega, forma_pagamento, troco_para, taxa_cartao_pct, bairro, taxa_entrega, pontos_ganhos, pontos_resgatados, desconto_fidelidade, mesa, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, \'pendente\')
+        INSERT INTO pedidos (cliente_nome, cliente_telefone, endereco, observacao, total, cupom_codigo, desconto_cupom, tipo_entrega, forma_pagamento, troco_para, taxa_cartao_pct, bairro, taxa_entrega, pontos_ganhos, pontos_resgatados, desconto_fidelidade, mesa, token, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, \'pendente\')
     ');
-    $stmt->execute([$nome, $telefone, $endereco, $obs, $total, $cupomValido ? $cupomValido['codigo'] : null, $descontoCupom, $tipoEntrega, $formaPagamento, $trocoPara, $taxaCartaoPct, $bairroNome, $taxaEntrega, $pontosGanhos, $pontosResgatados, $descontoFidelidade, $mesa ?: null]);
+    $stmt->execute([$nome, $telefone, $endereco, $obs, $total, $cupomValido ? $cupomValido['codigo'] : null, $descontoCupom, $tipoEntrega, $formaPagamento, $trocoPara, $taxaCartaoPct, $bairroNome, $taxaEntrega, $pontosGanhos, $pontosResgatados, $descontoFidelidade, $mesa ?: null, $token]);
     $pedidoId = (int) $pdo->lastInsertId();
 
     // Insere itens
@@ -328,7 +331,7 @@ try {
 
     $pdo->commit();
 
-    echo json_encode(['sucesso' => true, 'pedido_id' => $pedidoId]);
+    echo json_encode(['sucesso' => true, 'pedido_id' => $pedidoId, 'token' => $token]);
 
 } catch (Exception $e) {
     $pdo->rollBack();

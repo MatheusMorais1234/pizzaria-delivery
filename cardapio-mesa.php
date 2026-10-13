@@ -538,6 +538,16 @@ function saveCart() {
 function fmtBRL(v) {
     return parseFloat(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
+function salvarMeuPedido(id, token) {
+    // "Meus pedidos" deste aparelho: id + codigo secreto de cada pedido
+    try {
+        const lista = JSON.parse(localStorage.getItem('pizzaria_meus_pedidos') || '[]')
+            .filter(p => p.id !== id);
+        lista.unshift({ id, token });
+        localStorage.setItem('pizzaria_meus_pedidos', JSON.stringify(lista.slice(0, 30)));
+    } catch (e) {}
+}
+
 function esc(str) {
     return String(str ?? '')
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
@@ -724,11 +734,11 @@ async function enviarPedido() {
             hideCartBtn();
             // Mostra tela de sucesso
             const pedidoId = data.pedido_id;
-            const tel = 'MESA-' + MESA_NUM;
             document.getElementById('sucesso-mesa-label').textContent = MESA_LABEL;
             document.getElementById('sucesso-pedido-numero').textContent = 'Pedido #' + pedidoId;
             const linkEl = document.getElementById('sucesso-link-acompanhar');
-            linkEl.href = '/pizzaria/acompanhar.php?pedido=' + pedidoId + '&tel=' + encodeURIComponent(tel);
+            salvarMeuPedido(pedidoId, data.token);
+            linkEl.href = '/pizzaria/acompanhar.php?id=' + pedidoId + '&t=' + encodeURIComponent(data.token);
             document.getElementById('tela-sucesso').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         } else {

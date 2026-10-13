@@ -16,9 +16,24 @@ function getPDO(): PDO {
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
-        _migrarBanco($pdo);
+        _migrarSeNecessario($pdo);
     }
     return $pdo;
+}
+
+// Versao do esquema. Ao adicionar uma alteracao em _migrarBanco(),
+// aumente este numero: as migracoes so rodam quando ele muda, e nao
+// mais em toda requisicao.
+const SCHEMA_VERSAO = '2';
+
+function _migrarSeNecessario(PDO $pdo): void {
+    try {
+        $atual = $pdo->query("SELECT valor FROM configuracoes WHERE chave = 'schema_versao'")->fetchColumn();
+        if ($atual === SCHEMA_VERSAO) return;
+    } catch (Exception $e) {}
+    _migrarBanco($pdo);
+    $pdo->prepare("INSERT INTO configuracoes (chave, valor) VALUES ('schema_versao', ?) ON DUPLICATE KEY UPDATE valor = VALUES(valor)")
+        ->execute([SCHEMA_VERSAO]);
 }
 
 function _migrarBanco(PDO $pdo): void {
@@ -108,4 +123,7 @@ function _migrarBanco(PDO $pdo): void {
     try { $pdo->exec("ALTER TABLE pedidos ADD COLUMN mesa VARCHAR(20) DEFAULT NULL"); } catch (Exception $e) {}
     // Extend tipo_entrega enum to include 'mesa'
     try { $pdo->exec("ALTER TABLE pedidos MODIFY COLUMN tipo_entrega ENUM('entrega','retirada','mesa') NOT NULL DEFAULT 'entrega'"); } catch (Exception $e) {}
+    // Codigo secreto do pedido: o link de acompanhamento leva id + token,
+    // para ninguem ver o pedido dos outros trocando o numero na URL
+    try { $pdo->exec("ALTER TABLE pedidos ADD COLUMN token CHAR(32) DEFAULT NULL, ADD UNIQUE KEY uq_pedidos_token (token)"); } catch (Exception $e) {}
 }

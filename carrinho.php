@@ -834,16 +834,29 @@ document.querySelectorAll('input[name="tipo_entrega"]').forEach(radio => {
     });
 });
 
+function salvarMeuPedido(id, token) {
+    // "Meus pedidos" deste aparelho: id + codigo secreto de cada pedido
+    try {
+        const lista = JSON.parse(localStorage.getItem('pizzaria_meus_pedidos') || '[]')
+            .filter(p => p.id !== id);
+        lista.unshift({ id, token });
+        localStorage.setItem('pizzaria_meus_pedidos', JSON.stringify(lista.slice(0, 30)));
+    } catch (e) {}
+}
+
 // ── Histórico de endereço ─────────────────────────────────────
 let _enderecoSugerido = null;
 
-document.getElementById('cliente_telefone').addEventListener('blur', async function() {
+// O ultimo endereco fica salvo so no aparelho do cliente (localStorage).
+// Antes ele vinha do servidor a partir do telefone - e qualquer pessoa que
+// digitasse o telefone de outra conseguia o endereco dela.
+document.getElementById('cliente_telefone').addEventListener('blur', function() {
     const tel = this.value.replace(/\D/g,'');
     if (tel.length < 8) return;
     try {
-        const res  = await fetch('/pizzaria/api/endereco-historico.php?telefone=' + encodeURIComponent(tel));
-        const data = await res.json();
-        const div  = document.getElementById('sugestao-endereco');
+        const salvo = JSON.parse(localStorage.getItem('pizzaria_ultimo_endereco') || 'null');
+        const data  = salvo && salvo.telefone === tel ? salvo : null;
+        const div   = document.getElementById('sugestao-endereco');
         if (data && data.endereco_completo) {
             _enderecoSugerido = data;
             document.getElementById('sugestao-texto').textContent = data.endereco_completo;
@@ -1063,7 +1076,17 @@ document.getElementById('btn-confirmar').addEventListener('click', async () => {
 
         if (data.sucesso) {
             localStorage.removeItem('pizzaria_carrinho');
-            window.location.href = '/pizzaria/acompanhar.php?id=' + data.pedido_id;
+            // Guarda o endereco so neste aparelho, para sugerir no proximo pedido
+            if (payload.tipo_entrega === 'entrega' && payload.endereco) {
+                try {
+                    localStorage.setItem('pizzaria_ultimo_endereco', JSON.stringify({
+                        telefone: payload.cliente_telefone.replace(/\D/g, ''),
+                        endereco_completo: payload.endereco,
+                    }));
+                } catch (e) {}
+            }
+            salvarMeuPedido(data.pedido_id, data.token);
+            window.location.href = '/pizzaria/acompanhar.php?id=' + data.pedido_id + '&t=' + encodeURIComponent(data.token);
         } else {
             fecharModal();
             mostrarErro(data.mensagem || 'Erro ao enviar pedido.');

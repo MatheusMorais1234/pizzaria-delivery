@@ -4,6 +4,7 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/config.php';
 
 $pedidoId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$token    = (string) ($_GET['t'] ?? '');
 if (!$pedidoId) {
     header('Location: /pizzaria/');
     exit;
@@ -16,7 +17,14 @@ $stmt = $pdo->prepare('SELECT * FROM pedidos WHERE id = ?');
 $stmt->execute([$pedidoId]);
 $pedido = $stmt->fetch();
 
-if (!$pedido) {
+// So ve o pedido quem tem o link com o codigo secreto (ou o admin logado).
+// Sem isso, trocar o numero na URL mostrava nome, telefone e endereco de
+// qualquer cliente. A resposta e a mesma de "nao existe", de proposito.
+$podeVer = $pedido && (
+    (!empty($pedido['token']) && hash_equals($pedido['token'], $token))
+    || !empty($_SESSION['admin_id'])
+);
+if (!$podeVer) {
     header('Location: /pizzaria/');
     exit;
 }
@@ -366,12 +374,13 @@ include __DIR__ . '/includes/header.php';
 // Polling de status a cada 15 segundos
 // =============================================
 const pedidoId     = <?= $pedidoId ?>;
+const pedidoToken  = <?= json_encode((string) ($pedido['token'] ?? '')) ?>;
 let etapaAtual     = <?= $info['etapa'] ?>;
 let statusAnterior = null; // rastreia mudanças para notificações
 
 async function verificarStatus() {
     try {
-        const res  = await fetch('/pizzaria/api/status.php?id=' + pedidoId);
+        const res  = await fetch('/pizzaria/api/status.php?id=' + pedidoId + '&t=' + encodeURIComponent(pedidoToken));
         const data = await res.json();
 
         // Notifica mudança de status (nunca na primeira verificação)
@@ -474,7 +483,7 @@ async function enviarAvaliacao() {
     btn.textContent = 'Enviando…';
     const comentario = document.getElementById('av-comentario').value.trim();
     try {
-        const res = await fetch('/pizzaria/api/avaliacao.php?id=' + pedidoId, {
+        const res = await fetch('/pizzaria/api/avaliacao.php?id=' + pedidoId + '&t=' + encodeURIComponent(pedidoToken), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nota: notaSelecionada, comentario })

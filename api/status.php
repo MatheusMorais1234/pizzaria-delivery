@@ -12,11 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit;
     }
 
-    $stmt = getPDO()->prepare('SELECT status, motivo_cancelamento FROM pedidos WHERE id = ?');
+    $stmt = getPDO()->prepare('SELECT status, motivo_cancelamento, token FROM pedidos WHERE id = ?');
     $stmt->execute([$pedidoId]);
     $pedido = $stmt->fetch();
 
-    if (!$pedido) {
+    // Consulta publica, mas so com o codigo secreto do pedido
+    $token = (string) ($_GET['t'] ?? '');
+    if (!$pedido || empty($pedido['token']) || !hash_equals($pedido['token'], $token)) {
         echo json_encode(['sucesso' => false, 'mensagem' => 'Pedido não encontrado.']);
         exit;
     }
