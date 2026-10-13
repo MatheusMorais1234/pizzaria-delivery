@@ -13,6 +13,17 @@ if (!$pedidoId) {
 
 $pdo = getPDO();
 
+// Ler ou avaliar exige o codigo secreto do pedido: sem ele, qualquer um
+// avaliaria (ou leria a avaliacao de) qualquer pedido trocando o numero.
+$stmtTok = $pdo->prepare('SELECT token FROM pedidos WHERE id = ?');
+$stmtTok->execute([$pedidoId]);
+$tokenPedido = (string) ($stmtTok->fetchColumn() ?: '');
+if ($tokenPedido === '' || !hash_equals($tokenPedido, (string) ($_GET['t'] ?? ''))) {
+    http_response_code(404);
+    echo json_encode(['erro' => 'Pedido não encontrado']);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt = $pdo->prepare('SELECT nota, comentario FROM avaliacoes WHERE pedido_id = ?');
     $stmt->execute([$pedidoId]);
@@ -24,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 // POST — salvar avaliação
 $body = json_decode(file_get_contents('php://input'), true) ?? [];
 $nota       = (int) ($body['nota']       ?? 0);
-$comentario = trim($body['comentario']   ?? '');
+$comentario = mb_substr(trim((string) ($body['comentario'] ?? '')), 0, 500);
 
 if ($nota < 1 || $nota > 5) {
     http_response_code(400);
