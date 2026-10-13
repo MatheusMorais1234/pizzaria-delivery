@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
     `endereco`             VARCHAR(300)  NOT NULL,
     `observacao`           TEXT          DEFAULT NULL,
     `total`                DECIMAL(10,2) NOT NULL,
-    `status`               ENUM('pendente','em_preparo','saiu_entrega','entregue') NOT NULL DEFAULT 'pendente',
+    `status`               ENUM('pendente','em_preparo','saiu_entrega','entregue','cancelado') NOT NULL DEFAULT 'pendente',
     `created_at`           DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `cupom_codigo`         VARCHAR(50)   DEFAULT NULL,
     `desconto_cupom`       DECIMAL(8,2)  NOT NULL DEFAULT 0.00,
