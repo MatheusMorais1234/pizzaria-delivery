@@ -11,6 +11,10 @@
 // duas requisicoes simultaneas nao recriem o banco ao mesmo tempo.
 // ====================================================================
 
+// Aumente ao mudar banco/demo.sql ou a recriacao: a demo no ar e recriada
+// na proxima visita, sem esperar as 24 horas.
+const DEMO_VERSAO = '2';
+
 function demo_ativa(): bool {
     return defined('DEMO') && DEMO === true;
 }
@@ -19,8 +23,10 @@ function demo_recriar_se_preciso(PDO $pdo): void {
     if (!demo_ativa()) return;
 
     try {
-        $ultima = $pdo->query("SELECT valor FROM configuracoes WHERE chave = 'demo_recriada_em'")->fetchColumn();
-        if ($ultima && strtotime($ultima) > time() - 24 * 3600) return;
+        $cfg = $pdo->query("SELECT chave, valor FROM configuracoes WHERE chave IN ('demo_recriada_em', 'demo_versao')")
+                   ->fetchAll(PDO::FETCH_KEY_PAIR);
+        $recente = !empty($cfg['demo_recriada_em']) && strtotime($cfg['demo_recriada_em']) > time() - 24 * 3600;
+        if ($recente && ($cfg['demo_versao'] ?? '') === DEMO_VERSAO) return;
     } catch (Exception $e) {
         // tabela ainda nao existe: banco vazio, recria
     }
@@ -74,7 +80,7 @@ function demo_recriar(PDO $pdo): void {
     $pdo->exec($demo);
     demo_conferir_banco($pdo);
 
-    $pdo->prepare("INSERT INTO configuracoes (chave, valor) VALUES ('schema_versao', ?), ('demo_recriada_em', NOW())
+    $pdo->prepare("INSERT INTO configuracoes (chave, valor) VALUES ('schema_versao', ?), ('demo_versao', ?), ('demo_recriada_em', NOW())
                    ON DUPLICATE KEY UPDATE valor = VALUES(valor)")
-        ->execute([SCHEMA_VERSAO]);
+        ->execute([SCHEMA_VERSAO, DEMO_VERSAO]);
 }
