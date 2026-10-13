@@ -3,6 +3,7 @@
 // Endereco base e credenciais do banco moram em config.local.php, fora
 // do Git. Modelo: includes/config.local.example.php
 require_once __DIR__ . '/base.php';
+require_once __DIR__ . '/demo.php';
 define('DB_CHARSET', 'utf8mb4');
 
 function getPDO(): PDO {
@@ -15,6 +16,7 @@ function getPDO(): PDO {
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+        demo_recriar_se_preciso($pdo);
         _migrarSeNecessario($pdo);
     }
     return $pdo;

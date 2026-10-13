@@ -34,7 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Upload de imagem (tem prioridade sobre URL)
     $upload = $_FILES['imagem_upload'] ?? null;
-    if ($upload && $upload['error'] === UPLOAD_ERR_OK) {
+    if ($upload && $upload['error'] === UPLOAD_ERR_OK && demo_ativa()) {
+        // Na demo publica qualquer um entra no painel: nada de arquivos
+        // de estranhos no servidor. Imagem por URL continua funcionando.
+        $erros[] = 'Na demonstração o envio de imagens está desligado. Use o campo de URL.';
+    } elseif ($upload && $upload['error'] === UPLOAD_ERR_OK) {
         $tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mime  = $finfo->file($upload['tmp_name']);

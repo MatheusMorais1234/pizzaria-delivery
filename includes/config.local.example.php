@@ -16,3 +16,9 @@ define('DB_HOST', 'localhost');
 define('DB_NAME', 'pizzaria');
 define('DB_USER', 'root');
 define('DB_PASS', '');
+
+// Demonstracao publica: mostra o login de teste na tela de entrada,
+// bloqueia upload de imagens e recria o banco a cada 24 horas a partir
+// de banco/schema.sql + banco/demo.sql. APAGA TODOS OS DADOS - nunca
+// ligue numa pizzaria de verdade.
+define('DEMO', false);
