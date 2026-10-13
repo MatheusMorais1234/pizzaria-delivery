@@ -1,0 +1,12 @@
+# Pastas internas: so sao usadas pelo PHP, nunca abertas pelo navegador
+RedirectMatch 404 ^/(pizzaria/)?(includes|banco|admin/includes)(/|$)
+RedirectMatch 404 /\.(git|env|htaccess)
+RedirectMatch 404 \.(md|sql)$
+
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
