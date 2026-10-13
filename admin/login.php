@@ -96,6 +96,18 @@ $pageTitle = 'Login — Admin Bella Napoli';
         </div>
         <?php endif; ?>
 
+        <?php if (demo_ativa()): ?>
+        <div class="bg-amber-50 border border-amber-300 text-amber-900 rounded-lg px-4 py-3 text-sm mb-4">
+            <p class="font-semibold">Demonstração</p>
+            <p class="mt-1">E-mail <code class="font-mono">demo@bellanapoli.com</code> · senha <code class="font-mono">demo1234</code></p>
+            <p class="mt-1 text-amber-800/80">Pode mexer à vontade: os dados são recriados a cada 24 horas.</p>
+            <button type="button" class="mt-2 text-amber-900 font-semibold underline"
+                    onclick="document.querySelector('[name=email]').value='demo@bellanapoli.com';document.querySelector('[name=senha]').value='demo1234';this.closest('div').nextElementSibling.requestSubmit()">
+                Entrar com a conta de demonstração
+            </button>
+        </div>
+        <?php endif; ?>
+
         <form method="POST" class="space-y-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
