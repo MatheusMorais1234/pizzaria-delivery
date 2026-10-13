@@ -107,10 +107,15 @@ foreach ($itens as $item) {
         exit;
     }
 
-    // Valida ingredientes removidos (só strings, sem SQL injection)
-    $ingsRemovidos = array_values(array_filter(
-        array_map('strval', $item['ingredientes_removidos'] ?? []),
-        fn($v) => strlen(trim($v)) > 0 && strlen($v) <= 100
+    // Ingredientes removidos: só aceita os que de fato pertencem ao produto.
+    // O texto vem do navegador e depois aparece no painel do admin — aceitar
+    // qualquer string abriria espaço para XSS armazenado.
+    $stmtIng = $pdo->prepare('SELECT nome FROM produto_ingredientes WHERE produto_id = ?');
+    $stmtIng->execute([$prodId]);
+    $ingsDoProduto = $stmtIng->fetchAll(PDO::FETCH_COLUMN);
+    $ingsRemovidos = array_values(array_intersect(
+        $ingsDoProduto,
+        array_map('strval', (array) ($item['ingredientes_removidos'] ?? []))
     ));
 
     // Valida adicionais no servidor (busca preço do BD, ignora preço do cliente)

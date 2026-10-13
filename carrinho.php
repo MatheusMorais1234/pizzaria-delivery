@@ -583,7 +583,7 @@ function render() {
     const descontoLabel = document.getElementById('desconto-cupom-label');
     const descontoValor = document.getElementById('desconto-cupom-valor');
     if (cupomAplicado) {
-        descontoLabel.textContent = `Cupom ${cupomAplicado.codigo}`;
+        descontoLabel.textContent = `Cupom ${esc(cupomAplicado.codigo)}`;
         descontoValor.textContent = `−R$ ${fmt(desconto)}`;
         descontoRow.style.display = 'flex';
     } else {
@@ -969,7 +969,7 @@ document.getElementById('form-pedido').addEventListener('submit', (e) => {
 
     const modalCupomRow = document.getElementById('modal-cupom-row');
     if (cupomAplicado) {
-        document.getElementById('modal-cupom-label').textContent = `Cupom ${cupomAplicado.codigo}`;
+        document.getElementById('modal-cupom-label').textContent = `Cupom ${esc(cupomAplicado.codigo)}`;
         document.getElementById('modal-cupom-valor').textContent = `−R$ ${fmt(desconto)}`;
         modalCupomRow.style.display = 'flex';
     } else {
