@@ -380,7 +380,7 @@ include __DIR__ . '/includes/layout_top.php';
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">WhatsApp <span class="text-gray-400 font-normal">(número com DDI, sem +)</span></label>
                     <input type="text" name="whatsapp"
                            value="<?= htmlspecialchars(getConfig('whatsapp','')) ?>"
-                           placeholder="5511934567890"
+                           placeholder="DDI + DDD + número, só dígitos"
                            class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-400">
                     <p class="text-xs text-gray-400 mt-1">Ex: 5511987654321 (55 + DDD + número)</p>
                 </div>

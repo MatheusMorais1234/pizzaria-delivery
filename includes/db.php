@@ -16,6 +16,11 @@ function getPDO(): PDO {
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+        // O MySQL da hospedagem roda em UTC e o PHP no horario de Brasilia:
+        // sem isto, NOW() e CURRENT_TIMESTAMP gravavam pedidos 3h adiantados
+        // e o cronometro do painel ficava negativo. A conexao passa a usar o
+        // mesmo deslocamento do PHP (date('P'), ex.: -03:00).
+        $pdo->exec("SET time_zone = '" . date('P') . "'");
         demo_recriar_se_preciso($pdo);
         _migrarSeNecessario($pdo);
     }
