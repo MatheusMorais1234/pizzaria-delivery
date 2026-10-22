@@ -1,10 +1,7 @@
--- ====================================================================
 -- Dados da DEMONSTRACAO publica
--- --------------------------------------------------------------------
 -- Roda depois do schema.sql e das migracoes, so quando DEMO = true no
 -- config.local.php (includes/demo.php). Recriado a cada 24 horas.
 -- Tudo aqui e ficticio: nomes, telefones e enderecos.
--- ====================================================================
 
 -- Admin de demonstracao (a senha aparece na tela de login da demo).
 -- O admin padrao do schema.sql (senha 123456) nao existe na demo.

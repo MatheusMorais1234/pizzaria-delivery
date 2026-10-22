@@ -4,14 +4,12 @@ Sistema completo de pedidos para pizzaria, em **PHP 8 + MySQL** sem framework:
 o cliente monta o pedido pelo celular e acompanha cada etapa, e a pizzaria
 controla tudo num painel com kanban.
 
-**▶ Demo no ar: [pizzaria.matheusmorais.com](https://pizzaria.matheusmorais.com)**
+**Demo no ar: [pizzaria.matheusmorais.com](https://pizzaria.matheusmorais.com)**
 — painel em [/admin](https://pizzaria.matheusmorais.com/admin/login.php)
 (`demo@bellanapoli.com` / `demo1234`). Os dados são recriados a cada 24 horas,
 então pode mexer à vontade.
 
 > Bella Napoli é uma marca fictícia, criada para este projeto.
-
----
 
 ## O que tem
 
@@ -34,8 +32,6 @@ então pode mexer à vontade.
 - Dashboard do dia, histórico com filtros, relatório por bairro e avaliações
 - Gerador de QR Codes das mesas
 
----
-
 ## Segurança
 
 O sistema passou por uma revisão antes de ir para o ar. Cada correção está
@@ -51,8 +47,6 @@ num commit próprio no histórico.
 | Login | `password_hash`, sessão renovada ao entrar, bloqueio de 15 min após 5 erros |
 | Upload | Tipo verificado pelo conteúdo do arquivo, nome aleatório, pasta sem execução de scripts |
 | Configuração | Credenciais fora do Git, em `includes/config.local.php` |
-
----
 
 ## Rodando localmente
 
@@ -78,8 +72,6 @@ Com `define('DEMO', true)` no `config.local.php`, o banco é recriado a cada
 tela do painel e o upload de imagens fica desligado. **Isso apaga todos os
 dados** — nunca ligue numa pizzaria de verdade.
 
----
-
 ## Estrutura
 
 ```
@@ -93,7 +85,5 @@ banco/                                  schema.sql e dados da demo
 ```
 
 Front-end com Tailwind via CDN e JavaScript sem framework.
-
----
 
 Feito por [Matheus Morais](https://matheusmorais.com).

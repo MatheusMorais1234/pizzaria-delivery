@@ -4,7 +4,7 @@ require_once __DIR__ . '/../includes/db.php';
 
 $pdo = getPDO();
 
-// ── Ações POST ───────────────────────────────────────────────────
+// Ações POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
     $id   = (int) ($_POST['id'] ?? 0);
@@ -59,7 +59,7 @@ $pageTitle = 'Categorias — Bella Napoli Admin';
 include __DIR__ . '/includes/layout_top.php';
 ?>
 
-<!-- ── Cabeçalho ───────────────────────────────────────────────── -->
+<!-- Cabeçalho -->
 <div class="flex items-center justify-between mb-6">
     <div>
         <h1 class="text-2xl font-extrabold text-gray-900">Categorias</h1>
@@ -89,7 +89,7 @@ include __DIR__ . '/includes/layout_top.php';
 </div>
 <?php endif; ?>
 
-<!-- ── Tabela ──────────────────────────────────────────────────── -->
+<!-- Tabela -->
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
     <?php if (empty($lista)): ?>
     <div class="py-20 text-center text-gray-400">
@@ -162,7 +162,7 @@ include __DIR__ . '/includes/layout_top.php';
     <?php endif; ?>
 </div>
 
-<!-- ── Modal de criação / edição ──────────────────────────────── -->
+<!-- Modal de criação / edição -->
 <div id="modal-add" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4"
      onclick="if(event.target===this) fecharModal()">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm" onclick="event.stopPropagation()">

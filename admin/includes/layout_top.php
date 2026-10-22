@@ -79,7 +79,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
 
 <div class="flex min-h-screen">
 
-    <!-- ===================== SIDEBAR ===================== -->
+    <!-- Sidebar -->
     <aside id="sidebar"
            class="w-64 bg-gray-900 flex flex-col fixed inset-y-0 left-0 z-40 overflow-y-auto">
 
@@ -310,7 +310,7 @@ $pendentesNav = getPDO()->query("SELECT COUNT(*) FROM pedidos WHERE status='pend
     <!-- Overlay mobile -->
     <div id="overlay" class="hidden fixed inset-0 bg-black/50 z-30 md:hidden" onclick="toggleSidebar()"></div>
 
-    <!-- ===================== CONTEÚDO ===================== -->
+    <!-- Conteúdo -->
     <div class="flex-1 flex flex-col min-w-0 md:ml-64">
 
         <!-- Topbar mobile -->

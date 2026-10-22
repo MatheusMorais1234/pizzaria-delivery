@@ -418,7 +418,7 @@ include __DIR__ . '/includes/layout_top.php';
 <?php include __DIR__ . '/includes/layout_bottom.php'; ?>
 
 <script>
-// ── Abas URL / Upload ─────────────────────────────────────────
+// Abas URL / Upload
 function setTab(tab) {
     const isUrl = tab === 'url';
     document.getElementById('painel-url').classList.toggle('hidden', !isUrl);
@@ -428,7 +428,7 @@ function setTab(tab) {
     if (!isUrl) document.getElementById('campo-url').value = '';
 }
 
-// ── Preview por URL ───────────────────────────────────────────
+// Preview por URL
 function previewImg(url) {
     const wrap = document.getElementById('preview-wrap');
     const img  = document.getElementById('img-preview');
@@ -437,7 +437,7 @@ function previewImg(url) {
     else { wrap.classList.add('hidden'); }
 }
 
-// ── Preview por arquivo ───────────────────────────────────────
+// Preview por arquivo
 function previewUpload(input) {
     if (!input.files || !input.files[0]) return;
     const file = input.files[0];
@@ -455,7 +455,7 @@ function previewUpload(input) {
     reader.readAsDataURL(file);
 }
 
-// ── Limpar imagem ─────────────────────────────────────────────
+// Limpar imagem
 function limparImagem() {
     document.getElementById('img-preview').src = '';
     document.getElementById('preview-nome').textContent = '';
@@ -469,7 +469,7 @@ function limparImagem() {
 setTab('upload');
 <?php endif; ?>
 
-// ── Desconto ───────────────────────────────────────────────────
+// Desconto
 function toggleDesconto(ativo) {
     document.getElementById('painel-desconto').classList.toggle('hidden', !ativo);
     if (!ativo) {
@@ -518,7 +518,7 @@ document.getElementById('ing-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') { e.preventDefault(); adicionarIng(); }
 });
 
-// ── Tamanhos ───────────────────────────────────────────────────
+// Tamanhos
 function addTamanho() {
     document.getElementById('sem-tamanhos')?.remove();
     const row = document.createElement('div');

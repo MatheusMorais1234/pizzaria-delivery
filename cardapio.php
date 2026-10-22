@@ -104,9 +104,7 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
-<!-- ════════════════════════════════════
-     NAVBAR
-════════════════════════════════════ -->
+<!-- Navbar -->
 <nav class="bg-gray-950 shadow-xl sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between gap-4">
 
@@ -170,7 +168,7 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
 </nav>
 
 <?php if (!$aberto): ?>
-<!-- ════ MODAL LOJA FECHADA ════ -->
+<!-- Modal loja fechada -->
 <div id="modal-fechado"
      class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden">
@@ -197,9 +195,7 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
 </div>
 <?php endif; ?>
 
-<!-- ════════════════════════════════════
-     HERO
-════════════════════════════════════ -->
+<!-- Hero -->
 <section class="hero-bg py-14 px-4 text-center">
     <div class="max-w-2xl mx-auto">
         <p class="text-red-400 text-xs font-semibold uppercase tracking-[0.2em] mb-3 fade-in">
@@ -228,15 +224,13 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
 </section>
 
 <?php if ($tempoEspera > 0): ?>
-<!-- ══ BANNER TEMPO DE ESPERA ══ -->
+<!-- Banner tempo de espera -->
 <div class="bg-amber-50 border-b border-amber-200 py-2.5 px-4 text-center text-sm font-semibold text-amber-700">
     ⏱ Tempo estimado hoje: ~<?= $tempoEspera ?> min
 </div>
 <?php endif; ?>
 
-<!-- ════════════════════════════════════
-     FILTROS
-════════════════════════════════════ -->
+<!-- Filtros -->
 <div class="bg-white border-b border-gray-100 sticky top-[61px] z-40 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-3">
         <div class="flex gap-2 overflow-x-auto pb-0.5 scrollbar-hide" id="filtros" style="scrollbar-width:none;">
@@ -257,9 +251,7 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
 </div>
 
 <?php if (!empty($combos)): ?>
-<!-- ════════════════════════════════════
-     COMBOS ESPECIAIS
-════════════════════════════════════ -->
+<!-- Combos especiais -->
 <section class="max-w-6xl mx-auto px-4 pt-8 pb-2 w-full">
     <div class="flex items-center gap-3 mb-5">
         <div class="w-8 h-8 bg-orange-100 rounded-xl flex items-center justify-center text-lg">🍕</div>
@@ -312,9 +304,7 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
 </section>
 <?php endif; ?>
 
-<!-- ════════════════════════════════════
-     GRID DE PRODUTOS
-════════════════════════════════════ -->
+<!-- Grid de produtos -->
 <main class="max-w-6xl mx-auto px-4 py-10 flex-1 w-full">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="produtos-grid">
         <?php foreach ($produtos as $p):
@@ -452,9 +442,7 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
     </p>
 </main>
 
-<!-- ════════════════════════════════════
-     FOOTER MINI
-════════════════════════════════════ -->
+<!-- Footer mini -->
 <footer class="bg-gray-950 text-gray-600 text-center py-5 mt-auto text-xs border-t border-gray-900">
     <p>&copy; <?= date('Y') ?> Pizzaria Bella Napoli &mdash; Todos os direitos reservados</p>
 </footer>
@@ -502,7 +490,7 @@ $tempoEspera   = (int) getConfig('tempo_espera_atual', '0');
 <script>
 const TAMANHOS = <?= json_encode($tamanhosPorProduto, JSON_UNESCAPED_UNICODE) ?>;
 
-// ── Carrinho ──────────────────────────────────────────
+// Carrinho
 let carrinho = JSON.parse(localStorage.getItem('pizzaria_carrinho') || '[]');
 atualizarContador();
 
@@ -558,7 +546,7 @@ function mostrarToast(msg) {
     }, 2500);
 }
 
-// ── Helpers ───────────────────────────────────────────
+// Helpers
 function fmt(v) {
     return parseFloat(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -566,7 +554,7 @@ function esc(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-// ── Size picker ───────────────────────────────────────
+// Size picker
 let _sizeProdId, _sizeNome, _sizeImagem;
 
 function abrirSizePicker(id, nome, imagem) {
@@ -611,7 +599,7 @@ function adicionarComTamanho(tamanhoNome, tamanhoPreco) {
     mostrarToast('🍕 ' + _sizeNome + ' (' + tamanhoNome + ') adicionado!');
 }
 
-// ── Ingredientes toggle ───────────────────────────────
+// Ingredientes toggle
 function toggleIng(btn) {
     const lista = btn.nextElementSibling;
     const aberto = !lista.classList.contains('hidden');
@@ -619,7 +607,7 @@ function toggleIng(btn) {
     btn.querySelector('span').textContent = aberto ? 'Ver ingredientes' : 'Ocultar ingredientes';
 }
 
-// ── Filtro + busca ────────────────────────────────────
+// Filtro + busca
 let catAtiva = 'todos';
 
 function filtrar(catId) {
@@ -662,7 +650,7 @@ function aplicarFiltros(termo) {
     document.getElementById('sem-produtos').classList.toggle('hidden', visiveis > 0);
 }
 
-// ── Animações fade-in ─────────────────────────────────
+// Animações fade-in
 const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
 }, { threshold: 0.08 });

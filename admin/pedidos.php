@@ -82,7 +82,7 @@ include __DIR__ . '/includes/layout_top.php';
 $tempoEsperaAtual = (int)getConfig('tempo_espera_atual', '0');
 ?>
 
-<!-- ══ WIDGET TEMPO DE ESPERA ══════════════════════════════════ -->
+<!-- Widget tempo de espera -->
 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-4 py-3 mb-4 flex flex-wrap items-center gap-3">
     <!-- Ícone + label -->
     <div class="flex items-center gap-2 flex-shrink-0">
@@ -189,7 +189,7 @@ document.addEventListener('keydown', function(e) {
 </div>
 <?php endif; ?>
 
-<!-- ══ TOPBAR ══════════════════════════════════════════════════ -->
+<!-- Topbar -->
 <div class="flex flex-wrap items-center gap-3 mb-5">
 
     <!-- Título + badge data -->
@@ -242,7 +242,7 @@ document.addEventListener('keydown', function(e) {
     </span>
 </div>
 
-<!-- ══ KANBAN ══════════════════════════════════════════════════ -->
+<!-- Kanban -->
 <div id="kanban-board">
 
     <!-- Col 1: Novos -->
@@ -319,7 +319,7 @@ document.addEventListener('keydown', function(e) {
 
 </div>
 
-<!-- ══ MODAL CANCELAMENTO ══════════════════════════════════════ -->
+<!-- Modal cancelamento -->
 <div id="modal-cancelamento"
      class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
@@ -397,7 +397,7 @@ document.addEventListener('keydown', function(e) {
     </div>
 </div>
 
-<!-- ══ SECAO CANCELADOS ════════════════════════════════════════ -->
+<!-- Secao cancelados -->
 <div id="secao-cancelados" class="mt-4 hidden">
     <div class="bg-white rounded-2xl shadow-sm border border-red-100 p-4">
         <div class="flex items-center gap-2 mb-3">
@@ -410,7 +410,7 @@ document.addEventListener('keydown', function(e) {
     </div>
 </div>
 
-<!-- ══ MODAL DETALHE ══════════════════════════════════════════ -->
+<!-- Modal detalhe -->
 <div id="modal-overlay"
      class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4"
      onclick="fecharModal()">
@@ -454,9 +454,7 @@ document.addEventListener('keydown', function(e) {
 <?php include __DIR__ . '/includes/layout_bottom.php'; ?>
 
 <script>
-// ══════════════════════════════════════════════════════════════
 // Config
-// ══════════════════════════════════════════════════════════════
 const COLS = ['pendente', 'em_preparo', 'saiu_entrega', 'entregue'];
 
 const CFG = {
@@ -479,9 +477,7 @@ let termoBusca       = '';
 let modalAberto      = null;
 let canceladosVisiveis = false;
 
-// ══════════════════════════════════════════════════════════════
 // Barra de tempo (quanto tempo faz o pedido foi feito)
-// ══════════════════════════════════════════════════════════════
 function calcTimebar(createdAt) {
     const minutos = (Date.now() - new Date(createdAt.replace(' ', 'T')).getTime()) / 60000;
     const pct     = Math.min(100, (minutos / 60) * 100);
@@ -489,9 +485,7 @@ function calcTimebar(createdAt) {
     return { pct, cls, minutos: Math.round(minutos) };
 }
 
-// ══════════════════════════════════════════════════════════════
 // Renderiza um card
-// ══════════════════════════════════════════════════════════════
 function renderCard(p) {
     const cfg  = CFG[p.status];
     const tb   = calcTimebar(p.created_at);
@@ -589,9 +583,7 @@ function renderCard(p) {
     return card;
 }
 
-// ══════════════════════════════════════════════════════════════
 // Renderiza todas as colunas
-// ══════════════════════════════════════════════════════════════
 function renderTudo(dados) {
     dadosAtuais = dados.pedidos;
 
@@ -671,9 +663,7 @@ function renderCardCancelado(p) {
     return chip;
 }
 
-// ══════════════════════════════════════════════════════════════
 // Fetch do kanban
-// ══════════════════════════════════════════════════════════════
 async function fetchKanban(primeiro = false) {
     try {
         const res  = await fetch('<?= BASE ?>/api/pedidos-kanban.php');
@@ -704,9 +694,7 @@ async function fetchKanban(primeiro = false) {
     } catch(e) { /* silencioso */ }
 }
 
-// ══════════════════════════════════════════════════════════════
 // Avançar status
-// ══════════════════════════════════════════════════════════════
 async function avancarStatus(pedidoId, novoStatus, btn) {
     btn.disabled  = true;
     btn.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>';
@@ -734,7 +722,7 @@ async function voltarStatus(pedidoId, statusAnterior, btn) {
     }
 }
 
-// ── Modal de cancelamento ─────────────────────────────────────
+// Modal de cancelamento
 let cancelPedidoId = null;
 let motivoSelecionado = null;
 
@@ -811,9 +799,7 @@ async function confirmarCancelamento() {
     </svg> Confirmar cancelamento`;
 }
 
-// ══════════════════════════════════════════════════════════════
 // Impressão de comanda
-// ══════════════════════════════════════════════════════════════
 function imprimirComanda(pedidoId) {
     // Busca pedido nos dados carregados
     let pedido = null;
@@ -903,9 +889,7 @@ async function enviarStatus(pedidoId, novoStatus) {
     } catch { return false; }
 }
 
-// ══════════════════════════════════════════════════════════════
-// Modal de detalhe — redesenhado
-// ══════════════════════════════════════════════════════════════
+// Modal de detalhe
 const HEADER_COR = {
     pendente:     'bg-yellow-500',
     em_preparo:   'bg-blue-600',
@@ -1126,17 +1110,13 @@ function fecharModal() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
 
-// ══════════════════════════════════════════════════════════════
 // Busca em tempo real
-// ══════════════════════════════════════════════════════════════
 function filtrarBusca(valor) {
     termoBusca = valor.toLowerCase().trim();
     renderTudo({ pedidos: dadosAtuais, total_dia: null });
 }
 
-// ══════════════════════════════════════════════════════════════
 // Banner de novo pedido
-// ══════════════════════════════════════════════════════════════
 let bannerTimer = null;
 function mostrarBanner(qtd) {
     // Banner injetado dinamicamente na topbar
@@ -1155,9 +1135,7 @@ function mostrarBanner(qtd) {
     bannerTimer = setTimeout(() => el.remove(), 5000);
 }
 
-// ══════════════════════════════════════════════════════════════
 // Som (Web Audio API, sem arquivo externo)
-// ══════════════════════════════════════════════════════════════
 function tocarSom() {
     try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1175,9 +1153,7 @@ function tocarSom() {
     } catch(e) {}
 }
 
-// ══════════════════════════════════════════════════════════════
 // Helpers
-// ══════════════════════════════════════════════════════════════
 function fmtBRL(v) {
     return parseFloat(v).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 }
@@ -1193,9 +1169,7 @@ function esc(str) {
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ══════════════════════════════════════════════════════════════
 // Countdown + polling
-// ══════════════════════════════════════════════════════════════
 let secs = 30;
 const cd = document.getElementById('countdown');
 setInterval(() => {

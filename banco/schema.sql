@@ -1,4 +1,3 @@
--- ====================================================================
 -- Pizzaria Bella Napoli — Schema completo
 -- Versão: 2.1  |  Compatível com MySQL 5.7+ / MariaDB 10.3+
 --
@@ -15,7 +14,6 @@
 --   URL:   http://localhost/pizzaria/admin/
 --   Email: admin@pizzaria.com
 --   Senha: 123456
--- ====================================================================
 
 CREATE DATABASE IF NOT EXISTS pizzaria
     CHARACTER SET utf8mb4
@@ -23,7 +21,7 @@ CREATE DATABASE IF NOT EXISTS pizzaria
 
 USE pizzaria;
 
--- ── Remove tabelas existentes (ordem inversa de FK) ──────────────────
+-- Remove tabelas existentes (ordem inversa de FK)
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `pedido_itens`;
 DROP TABLE IF EXISTS `pedidos`;
@@ -37,9 +35,7 @@ DROP TABLE IF EXISTS `configuracoes`;
 DROP TABLE IF EXISTS `admins`;
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ────────────────────────────────────────────────────────────────────
 -- 1. CATEGORIAS
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE `categorias` (
     `id`    INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     `nome`  VARCHAR(100)    NOT NULL,
@@ -47,9 +43,7 @@ CREATE TABLE `categorias` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ────────────────────────────────────────────────────────────────────
 -- 2. PRODUTOS
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `produtos` (
     `id`           INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     `categoria_id` INT UNSIGNED    NOT NULL,
@@ -64,9 +58,7 @@ CREATE TABLE IF NOT EXISTS `produtos` (
     CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ────────────────────────────────────────────────────────────────────
 -- 3. INGREDIENTES DOS PRODUTOS (para o cliente poder remover)
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `produto_ingredientes` (
     `id`         INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     `produto_id` INT UNSIGNED  NOT NULL,
@@ -77,9 +69,7 @@ CREATE TABLE IF NOT EXISTS `produto_ingredientes` (
         FOREIGN KEY (`produto_id`) REFERENCES `produtos` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ────────────────────────────────────────────────────────────────────
 -- 4. ADICIONAIS (extras com preço)
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `adicionais` (
     `id`    INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     `nome`  VARCHAR(100)  NOT NULL,
@@ -88,9 +78,7 @@ CREATE TABLE IF NOT EXISTS `adicionais` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ────────────────────────────────────────────────────────────────────
 -- 5. COMBOS (pizza + bebida com preço especial)
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `combos` (
     `id`             INT UNSIGNED   NOT NULL AUTO_INCREMENT,
     `nome`           VARCHAR(150)   NOT NULL,
@@ -104,9 +92,7 @@ CREATE TABLE IF NOT EXISTS `combos` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ────────────────────────────────────────────────────────────────────
 -- 6. PEDIDOS
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `pedidos` (
     `id`                   INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     `cliente_nome`         VARCHAR(150)  NOT NULL,
@@ -128,9 +114,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ────────────────────────────────────────────────────────────────────
 -- 7. ITENS DOS PEDIDOS
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `pedido_itens` (
     `id`                     INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     `pedido_id`              INT UNSIGNED    NOT NULL,
@@ -147,9 +131,7 @@ CREATE TABLE IF NOT EXISTS `pedido_itens` (
     CONSTRAINT `pedido_itens_ibfk_2` FOREIGN KEY (`produto_id`) REFERENCES `produtos` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ────────────────────────────────────────────────────────────────────
 -- 8. CUPONS DE DESCONTO
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `cupons` (
     `id`            INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     `codigo`        VARCHAR(50)   NOT NULL,
@@ -165,18 +147,14 @@ CREATE TABLE IF NOT EXISTS `cupons` (
     UNIQUE KEY `codigo` (`codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ────────────────────────────────────────────────────────────────────
 -- 9. CONFIGURAÇÕES (chave–valor)
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `configuracoes` (
     `chave` VARCHAR(100) NOT NULL,
     `valor` TEXT         NOT NULL,
     PRIMARY KEY (`chave`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ────────────────────────────────────────────────────────────────────
 -- 10. ADMINISTRADORES
--- ────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `admins` (
     `id`         INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     `email`      VARCHAR(150)  NOT NULL,
@@ -185,18 +163,15 @@ CREATE TABLE IF NOT EXISTS `admins` (
     UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
--- ====================================================================
 -- DADOS INICIAIS
--- ====================================================================
 
--- ── Categorias ───────────────────────────────────────────────────────
+-- Categorias
 INSERT INTO `categorias` (`nome`, `ordem`) VALUES
     ('Pizzas',     1),
     ('Bebidas',    2),
     ('Sobremesas', 3);
 
--- ── Pizzas ───────────────────────────────────────────────────────────
+-- Pizzas
 INSERT INTO `produtos` (`categoria_id`, `nome`, `descricao`, `preco`, `imagem_url`, `ativo`, `desconto_pct`) VALUES
 (1, 'Margherita Clássica',
  'Molho de tomate artesanal, mussarela de búfala, folhas de manjericão fresco e fio de azeite extra virgem.',
@@ -218,7 +193,7 @@ INSERT INTO `produtos` (`categoria_id`, `nome`, `descricao`, `preco`, `imagem_ur
  'Generosas fatias de pepperoni importado, pimentas vermelhas, mussarela e molho especial da casa.',
  54.90, 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80', 1, 0.00);
 
--- ── Bebidas ──────────────────────────────────────────────────────────
+-- Bebidas
 INSERT INTO `produtos` (`categoria_id`, `nome`, `descricao`, `preco`, `imagem_url`, `ativo`, `desconto_pct`) VALUES
 (2, 'Coca-Cola 2L',
  'Refrigerante gelado, perfeito para acompanhar sua pizza favorita.',
@@ -228,13 +203,13 @@ INSERT INTO `produtos` (`categoria_id`, `nome`, `descricao`, `preco`, `imagem_ur
  'Suco espremido na hora, sem conservantes, cheio de vitamina C.',
  10.90, 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80', 1, 0.00);
 
--- ── Sobremesas ───────────────────────────────────────────────────────
+-- Sobremesas
 INSERT INTO `produtos` (`categoria_id`, `nome`, `descricao`, `preco`, `imagem_url`, `ativo`, `desconto_pct`) VALUES
 (3, 'Petit Gâteau de Chocolate',
  'Bolinho quente de chocolate com interior cremoso, servido com sorvete de creme e calda de frutas vermelhas.',
  22.90, 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80', 1, 0.00);
 
--- ── Ingredientes por produto ─────────────────────────────────────────
+-- Ingredientes por produto
 INSERT INTO `produto_ingredientes` (`produto_id`, `nome`) VALUES
 -- Margherita Clássica (id=1)
 (1, 'Molho de tomate'), (1, 'Mussarela de búfala'), (1, 'Manjericão'), (1, 'Azeite extra virgem'),
@@ -247,7 +222,7 @@ INSERT INTO `produto_ingredientes` (`produto_id`, `nome`) VALUES
 -- Pepperoni Picante (id=5)
 (5, 'Molho de tomate'), (5, 'Pepperoni'), (5, 'Pimentas vermelhas'), (5, 'Mussarela'), (5, 'Molho especial da casa');
 
--- ── Adicionais ───────────────────────────────────────────────────────
+-- Adicionais
 INSERT INTO `adicionais` (`nome`, `preco`, `ativo`) VALUES
 ('Borda recheada com catupiry', 8.00, 1),
 ('Mussarela extra',             5.00, 1),
@@ -255,7 +230,7 @@ INSERT INTO `adicionais` (`nome`, `preco`, `ativo`) VALUES
 ('Cheddar',                     4.00, 1),
 ('Azeitonas extras',            3.00, 1);
 
--- ── Configurações padrão ─────────────────────────────────────────────
+-- Configurações padrão
 -- Horários: Dom fechado | Seg-Sex 18:00-23:00 | Sáb 12:00-23:00
 INSERT INTO `configuracoes` (`chave`, `valor`) VALUES
 ('pizzaria_aberta',   '1'),
@@ -277,7 +252,7 @@ INSERT INTO `configuracoes` (`chave`, `valor`) VALUES
 ('sobre_nos_anos',    '15+'),
 ('sobre_nos_sabores', '30+');
 
--- ── Admin padrão ─────────────────────────────────────────────────────
+-- Admin padrão
 -- Login: admin@pizzaria.com  |  Senha: 123456
 -- Hash gerado com password_hash('123456', PASSWORD_DEFAULT)
 INSERT INTO `admins` (`email`, `senha_hash`) VALUES

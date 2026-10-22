@@ -25,7 +25,7 @@ $pageTitle = 'Carrinho — Pizzaria Bella Napoli';
 include __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ===== NAVBAR SIMPLIFICADA ===== -->
+<!-- Navbar simplificada -->
 <nav class="bg-red-600 shadow-lg">
     <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         <a href="<?= BASE ?>/cardapio.php" class="flex items-center gap-2 text-white hover:text-red-200 transition-colors">
@@ -48,7 +48,7 @@ include __DIR__ . '/includes/header.php';
     </h1>
 
     <?php if ($tempoEspera > 0): ?>
-    <!-- ══ BANNER TEMPO DE ESPERA ══ -->
+    <!-- Banner tempo de espera -->
     <div class="bg-amber-50 border border-amber-200 rounded-2xl py-2.5 px-4 text-center text-sm font-semibold text-amber-700 mb-8">
         ⏱ Tempo estimado hoje: ~<?= $tempoEspera ?> min
     </div>
@@ -322,7 +322,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </main>
 
-<!-- ===== MODAL DE CONFIRMAÇÃO ===== -->
+<!-- Modal de confirmação -->
 <div id="modal-confirmacao" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
     <!-- Backdrop -->
     <div id="modal-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="fecharModal()"></div>
@@ -410,7 +410,7 @@ include __DIR__ . '/includes/header.php';
 <?php include __DIR__ . '/includes/footer.php'; ?>
 
 <script>
-// ── Dados do servidor ──────────────────────────────────────────
+// Dados do servidor
 const INGS  = <?= json_encode($INGS_DB,  JSON_UNESCAPED_UNICODE) ?>;
 const ADDS  = <?= json_encode($ADDS_DB,  JSON_UNESCAPED_UNICODE) ?>;
 const TAXA_CREDITO_PCT   = <?= $taxaCreditoPct ?>;
@@ -420,7 +420,7 @@ const FIDELIDADE_ATIVO   = <?= $fidelidadeAtivo ? 'true' : 'false' ?>;
 const RESGATE_MINIMO     = <?= $resgateMinimo ?>;
 const VALOR_PONTO        = <?= $valorPonto ?>;
 
-// ── Estado ────────────────────────────────────────────────────
+// Estado
 let carrinho         = JSON.parse(localStorage.getItem('pizzaria_carrinho') || '[]');
 let cupomAplicado    = null; // { codigo, tipo, valor, desconto }
 let taxaEntregaAtual = 0;
@@ -433,7 +433,7 @@ carrinho = carrinho.map(i => ({
     adicionais: i.adicionais ?? [],
 }));
 
-// ── Helpers ───────────────────────────────────────────────────
+// Helpers
 function fmt(v) {
     return parseFloat(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -452,7 +452,7 @@ function recalcularPreco(idx) {
     item.preco = base + extras;
 }
 
-// ── Ações de ingrediente ──────────────────────────────────────
+// Ações de ingrediente
 function toggleIng(idx, nome) {
     const item = carrinho[idx];
     const rem = item.ingredientesRemovidos || [];
@@ -464,7 +464,7 @@ function toggleIng(idx, nome) {
     render();
 }
 
-// ── Ações de adicional ────────────────────────────────────────
+// Ações de adicional
 function addExtra(idx, addId, addNome, addPreco) {
     const item = carrinho[idx];
     item.adicionais = item.adicionais || [];
@@ -487,7 +487,7 @@ function removerExtra(idx, addId) {
     render();
 }
 
-// ── Quantidade do item ────────────────────────────────────────
+// Quantidade do item
 function mudarQtd(idx, delta) {
     carrinho[idx].quantidade += delta;
     if (carrinho[idx].quantidade <= 0) carrinho.splice(idx, 1);
@@ -523,7 +523,7 @@ function separarUnidades(idx) {
     mostrarErro(`${qtd} itens separados — personalize cada um como quiser.`, '#2563eb');
 }
 
-// ── Render principal ──────────────────────────────────────────
+// Render principal
 function render() {
     const vazio    = document.getElementById('carrinho-vazio');
     const conteudo = document.getElementById('carrinho-conteudo');
@@ -616,7 +616,7 @@ function renderItem(item, idx) {
     const removidos = new Set(item.ingredientesRemovidos || []);
     const meuAdds = item.adicionais || [];
 
-    // ── Seção de ingredientes (estilo iFood: − para remover, + para re-add) ──
+    // Seção de ingredientes (estilo iFood: − para remover, + para re-add)
     const ingsHtml = ings.length ? `
         <div class="mt-4 pt-4 border-t border-gray-100">
             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Ingredientes</p>
@@ -637,7 +637,7 @@ function renderItem(item, idx) {
             </div>
         </div>` : '';
 
-    // ── Seção de adicionais (+ qtd −) ──────────────────────────────────────
+    // Seção de adicionais (+ qtd −)
     const addsHtml = ADDS.length ? `
         <div class="mt-4 pt-4 border-t border-gray-100">
             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Adicionais</p>
@@ -749,7 +749,7 @@ function renderComboItem(item, idx) {
     </div>`;
 }
 
-// ── Cupom ─────────────────────────────────────────────────────
+// Cupom
 async function aplicarCupom() {
     const input = document.getElementById('cupom-input');
     const btn   = document.getElementById('btn-cupom');
@@ -814,7 +814,7 @@ function renderCupomFeedback(state) {
     el.classList.remove('hidden');
 }
 
-// ── Forma de pagamento / troco / taxa ────────────────────────
+// Forma de pagamento / troco / taxa
 document.querySelectorAll('input[name="forma_pagamento"]').forEach(radio => {
     radio.addEventListener('change', () => {
         document.getElementById('bloco-troco').classList.toggle('hidden', radio.value !== 'dinheiro');
@@ -822,7 +822,7 @@ document.querySelectorAll('input[name="forma_pagamento"]').forEach(radio => {
     });
 });
 
-// ── Entrega / Retirada ────────────────────────────────────────
+// Entrega / Retirada
 document.querySelectorAll('input[name="tipo_entrega"]').forEach(radio => {
     radio.addEventListener('change', () => {
         const isEntrega = document.getElementById('tipo-entrega').checked;
@@ -844,7 +844,7 @@ function salvarMeuPedido(id, token) {
     } catch (e) {}
 }
 
-// ── Histórico de endereço ─────────────────────────────────────
+// Histórico de endereço
 let _enderecoSugerido = null;
 
 // O ultimo endereco fica salvo so no aparelho do cliente (localStorage).
@@ -920,14 +920,14 @@ function usarEnderecoSugerido() {
     document.getElementById('sugestao-endereco').classList.add('hidden');
 }
 
-// ── Máscara de CEP ────────────────────────────────────────────
+// Máscara de CEP
 document.getElementById('end_cep').addEventListener('input', function() {
     let v = this.value.replace(/\D/g,'').slice(0,8);
     if (v.length > 5) v = v.slice(0,5) + '-' + v.slice(5);
     this.value = v;
 });
 
-// ── Montar string de endereço ─────────────────────────────────
+// Montar string de endereço
 function montarEndereco() {
     if (document.getElementById('tipo-retirada')?.checked) return 'Retirada na loja';
 
@@ -945,7 +945,7 @@ function montarEndereco() {
     return partes.join(' — ');
 }
 
-// ── Abrir modal de confirmação ────────────────────────────────
+// Abrir modal de confirmação
 document.getElementById('form-pedido').addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -1033,7 +1033,7 @@ function fecharModal() {
     document.body.style.overflow = '';
 }
 
-// ── Envio após confirmação ────────────────────────────────────
+// Envio após confirmação
 document.getElementById('btn-confirmar').addEventListener('click', async () => {
     const btn = document.getElementById('btn-confirmar');
     btn.disabled = true;
@@ -1110,7 +1110,7 @@ function mostrarErro(msg, cor = '') {
     setTimeout(() => { t.classList.add('opacity-0'); t.classList.remove('opacity-100'); t.style.backgroundColor = ''; }, 4000);
 }
 
-// ── Bairros / Taxa de entrega ─────────────────────────────────
+// Bairros / Taxa de entrega
 let bairrosData = [];
 async function carregarBairros() {
     try {
@@ -1146,7 +1146,7 @@ function atualizarTaxaEntrega() {
 
 render();
 
-// ── Fidelidade ─────────────────────────────────────────────────
+// Fidelidade
 let _fidelidadePontos = 0;
 let _pontosResgatados = 0;
 

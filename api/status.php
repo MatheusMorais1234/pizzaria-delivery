@@ -5,7 +5,7 @@ require_once __DIR__ . '/../includes/db.php';
 
 $pedidoId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-// ---- GET: consulta pública de status ----
+// GET: consulta pública de status
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!$pedidoId) {
         echo json_encode(['sucesso' => false, 'mensagem' => 'ID inválido.']);
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     exit;
 }
 
-// ---- POST: admin atualiza status (requer sessão) ----
+// POST: admin atualiza status (requer sessão)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_start();
     if (empty($_SESSION['admin_id'])) {

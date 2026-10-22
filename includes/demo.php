@@ -1,7 +1,5 @@
 <?php
-// ====================================================================
 // Modo demonstracao (DEMO = true no config.local.php)
-// --------------------------------------------------------------------
 // Na demo publica qualquer visitante faz pedidos e mexe no painel.
 // Para ela nunca ficar baguncada, o banco inteiro e recriado a cada
 // 24 horas a partir de banco/schema.sql + migracoes + banco/demo.sql.
@@ -9,7 +7,6 @@
 // Nao ha cron no plano de hospedagem, entao quem dispara a recriacao e
 // a primeira requisicao depois que o prazo vence. GET_LOCK garante que
 // duas requisicoes simultaneas nao recriem o banco ao mesmo tempo.
-// ====================================================================
 
 // Aumente ao mudar banco/demo.sql ou a recriacao: a demo no ar e recriada
 // na proxima visita, sem esperar as 24 horas.

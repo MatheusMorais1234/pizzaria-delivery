@@ -77,7 +77,6 @@ $pageTitle = 'Login — Admin Bella Napoli';
 </head>
 <body class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center px-4">
 
-
 <div class="w-full max-w-sm">
     <div class="bg-white rounded-2xl shadow-2xl p-8">
         <!-- Logo -->

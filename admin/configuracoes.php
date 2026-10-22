@@ -129,7 +129,7 @@ include __DIR__ . '/includes/layout_top.php';
 
 <div class="max-w-2xl space-y-6">
 
-    <!-- ── Horários por dia da semana ───────────────────────────── -->
+    <!-- Horários por dia da semana -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100">
             <h2 class="font-extrabold text-gray-900">Horários por dia da semana</h2>
@@ -210,7 +210,7 @@ include __DIR__ . '/includes/layout_top.php';
         </form>
     </div>
 
-    <!-- ── Configurações gerais ──────────────────────────────────── -->
+    <!-- Configurações gerais -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <h2 class="font-extrabold text-gray-900 mb-1">Configurações gerais</h2>
         <p class="text-xs text-gray-400 mb-5">Override manual e tempo de entrega</p>
@@ -259,7 +259,7 @@ include __DIR__ . '/includes/layout_top.php';
                 <p class="text-xs text-gray-400 mt-1">0 = sem mínimo. Pedidos de entrega abaixo deste valor são bloqueados.</p>
             </div>
 
-            <!-- ── Programa de Fidelidade ──────────────────────────── -->
+            <!-- Programa de Fidelidade -->
             <div class="border-t border-gray-100 pt-5">
                 <h3 class="font-bold text-gray-800 mb-1">Programa de Fidelidade</h3>
                 <p class="text-xs text-gray-400 mb-4">Configure a acumulação e resgate de pontos pelos clientes</p>
@@ -316,7 +316,7 @@ include __DIR__ . '/includes/layout_top.php';
         </form>
     </div>
 
-    <!-- ── Taxas de pagamento ────────────────────────────────────── -->
+    <!-- Taxas de pagamento -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <h2 class="font-extrabold text-gray-900 mb-1">Taxas do cartão</h2>
         <p class="text-xs text-gray-400 mb-5">Percentual cobrado pela maquininha repassado ao cliente no checkout. Deixe 0 para não cobrar taxa.</p>
@@ -360,7 +360,7 @@ include __DIR__ . '/includes/layout_top.php';
         </form>
     </div>
 
-    <!-- ── Informações de contato ──────────────────────────────── -->
+    <!-- Informações de contato -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <h2 class="font-extrabold text-gray-900 mb-1">Informações de contato</h2>
         <p class="text-xs text-gray-400 mb-5">Exibidas na landing page e no footer</p>
@@ -435,7 +435,7 @@ include __DIR__ . '/includes/layout_top.php';
         </form>
     </div>
 
-    <!-- ── Landing page ──────────────────────────────────────── -->
+    <!-- Landing page -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <h2 class="font-extrabold text-gray-900 mb-1">Textos da landing page</h2>
         <p class="text-xs text-gray-400 mb-5">Benefício para aniversariantes e dados do "Sobre nós"</p>
@@ -482,7 +482,7 @@ include __DIR__ . '/includes/layout_top.php';
         </form>
     </div>
 
-    <!-- ── Status atual ──────────────────────────────────────────── -->
+    <!-- Status atual -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
         <p class="text-sm font-semibold text-gray-700 mb-3">Status atual</p>
         <div class="flex items-center gap-3 mb-2">

@@ -6,9 +6,7 @@ $pdo    = getPDO();
 $erros  = [];
 $sucesso = false;
 
-// ══════════════════════════════════════════════════════════════
-// PROCESSAMENTO DO POST
-// ══════════════════════════════════════════════════════════════
+// Processamento do POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nome           = trim($_POST['cliente_nome']      ?? '');
@@ -124,9 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ══════════════════════════════════════════════════════════════
-// CARREGA PRODUTOS AGRUPADOS POR CATEGORIA
-// ══════════════════════════════════════════════════════════════
+// Carrega produtos agrupados por categoria
 $categorias = $pdo->query("
     SELECT c.id AS cat_id, c.nome AS cat_nome,
            p.id, p.nome, p.preco, p.imagem_url, p.descricao
@@ -225,9 +221,7 @@ include __DIR__ . '/includes/layout_top.php';
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-    <!-- ══════════════════════════════════════════════════════════
-         COLUNA ESQUERDA — Dados do cliente
-    ══════════════════════════════════════════════════════════════ -->
+    <!-- Coluna esquerda: dados do cliente -->
     <div class="space-y-5">
 
         <!-- Card: Dados do cliente -->
@@ -494,9 +488,7 @@ include __DIR__ . '/includes/layout_top.php';
 
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════
-         COLUNA DIREITA — Seleção de produtos (cardápio)
-    ══════════════════════════════════════════════════════════════ -->
+    <!-- Coluna direita: seleção de produtos (cardápio) -->
     <div>
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
@@ -603,9 +595,7 @@ include __DIR__ . '/includes/layout_top.php';
 <?php include __DIR__ . '/includes/layout_bottom.php'; ?>
 
 <script>
-// ══════════════════════════════════════════════════════════════
 // Estado do carrinho
-// ══════════════════════════════════════════════════════════════
 let carrinho = [];
 
 // Restaura carrinho do hidden input se houver (após erro de POST)
@@ -619,9 +609,7 @@ let carrinho = [];
     renderCarrinho();
 })();
 
-// ══════════════════════════════════════════════════════════════
 // Gerenciar carrinho
-// ══════════════════════════════════════════════════════════════
 function adicionarProduto(id, nome, preco) {
     const idx = carrinho.findIndex(i => i.produto_id === id);
     if (idx >= 0) {
@@ -711,9 +699,7 @@ function renderCarrinho() {
     totalEl.textContent = 'R$ ' + fmt(totalGeral);
 }
 
-// ══════════════════════════════════════════════════════════════
 // Forma de pagamento: visual + troco
-// ══════════════════════════════════════════════════════════════
 function alternarPagamento(val) {
     document.querySelectorAll('.pag-opcao').forEach(el => {
         const radio = el.querySelector('input[type="radio"]');
@@ -729,9 +715,7 @@ function alternarPagamento(val) {
     document.getElementById('bloco-troco-manual').classList.toggle('hidden', val !== 'dinheiro');
 }
 
-// ══════════════════════════════════════════════════════════════
 // Tipo de entrega: mostrar/ocultar campo endereço
-// ══════════════════════════════════════════════════════════════
 function alternarTipoEntrega(tipo) {
     const blocoEnd = document.getElementById('bloco-endereco');
     const lblEnt   = document.getElementById('label-entrega');
@@ -762,9 +746,7 @@ function alternarTipoEntrega(tipo) {
     }
 })();
 
-// ══════════════════════════════════════════════════════════════
 // Status: efeito visual nas opções
-// ══════════════════════════════════════════════════════════════
 function alternarStatus(status) {
     const lblPend = document.getElementById('label-pendente');
     const lblPrep = document.getElementById('label-em_preparo');
@@ -782,9 +764,7 @@ function alternarStatus(status) {
     }
 }
 
-// ══════════════════════════════════════════════════════════════
 // Busca rápida no cardápio
-// ══════════════════════════════════════════════════════════════
 function filtrarCardapio(termo) {
     const q = termo.toLowerCase().trim();
     document.querySelectorAll('.produto-item').forEach(el => {
@@ -799,9 +779,7 @@ function filtrarCardapio(termo) {
     });
 }
 
-// ══════════════════════════════════════════════════════════════
 // Efeito visual no botão + após adicionar ao carrinho
-// ══════════════════════════════════════════════════════════════
 function pulsarBotao(produtoId) {
     // Encontra o botão pelo evento de produto
     document.querySelectorAll('.produto-item').forEach(el => {
@@ -813,9 +791,7 @@ function pulsarBotao(produtoId) {
     });
 }
 
-// ══════════════════════════════════════════════════════════════
 // Validação e serialização antes do submit
-// ══════════════════════════════════════════════════════════════
 function prepararSubmit(e) {
     const aviso  = document.getElementById('aviso-form');
     const erros  = [];
@@ -853,9 +829,7 @@ function prepararSubmit(e) {
     return true;
 }
 
-// ══════════════════════════════════════════════════════════════
 // Helpers
-// ══════════════════════════════════════════════════════════════
 function fmt(v) {
     return parseFloat(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }

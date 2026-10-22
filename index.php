@@ -141,9 +141,7 @@ $diaAtual        = (int) date('w');
 </head>
 <body class="bg-white overflow-x-hidden">
 
-<!-- ════════════════════════════════════
-     NAVBAR
-════════════════════════════════════ -->
+<!-- Navbar -->
 <nav id="navbar" class="fixed top-0 left-0 right-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 lg:h-20">
@@ -195,9 +193,7 @@ $diaAtual        = (int) date('w');
     </div>
 </nav>
 
-<!-- ════════════════════════════════════
-     HERO
-════════════════════════════════════ -->
+<!-- Hero -->
 <section id="hero" class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-4 relative">
 
     <!-- Status badge -->
@@ -252,9 +248,7 @@ $diaAtual        = (int) date('w');
     </div>
 </section>
 
-<!-- ════════════════════════════════════
-     SOBRE NÓS
-════════════════════════════════════ -->
+<!-- Sobre nós -->
 <section id="sobre" class="py-20 lg:py-28 px-4 bg-white">
     <div class="max-w-6xl mx-auto">
         <div class="grid lg:grid-cols-2 gap-14 lg:gap-24 items-center">
@@ -316,9 +310,7 @@ $diaAtual        = (int) date('w');
     </div>
 </section>
 
-<!-- ════════════════════════════════════
-     AMBIENTE
-════════════════════════════════════ -->
+<!-- Ambiente -->
 <section id="ambiente" class="py-20 lg:py-28 bg-gray-950">
     <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-14 fade-in">
@@ -365,9 +357,7 @@ $diaAtual        = (int) date('w');
     </div>
 </section>
 
-<!-- ════════════════════════════════════
-     COMBOS
-════════════════════════════════════ -->
+<!-- Combos -->
 <section id="combos" class="py-20 lg:py-28 bg-white px-4">
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-14 fade-in">
@@ -438,9 +428,7 @@ $diaAtual        = (int) date('w');
     </div>
 </section>
 
-<!-- ════════════════════════════════════
-     NOVIDADES & PROMOÇÕES
-════════════════════════════════════ -->
+<!-- Novidades & promoções -->
 <section id="promocoes" class="py-20 lg:py-28 px-4" style="background-color: #FFF5F0;">
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-14 fade-in">
@@ -519,9 +507,7 @@ $diaAtual        = (int) date('w');
     </div>
 </section>
 
-<!-- ════════════════════════════════════
-     ANIVERSARIANTES
-════════════════════════════════════ -->
+<!-- Aniversariantes -->
 <section id="aniversariantes" class="py-20 lg:py-28 px-4 relative overflow-hidden"
          style="background: linear-gradient(135deg, #b91c1c 0%, #dc2626 45%, #ea580c 100%);">
 
@@ -575,9 +561,7 @@ $diaAtual        = (int) date('w');
     </div>
 </section>
 
-<!-- ════════════════════════════════════
-     CONTATO & MAPA
-════════════════════════════════════ -->
+<!-- Contato & mapa -->
 <section id="contato" class="py-20 lg:py-28 bg-white px-4">
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-14 fade-in">
@@ -720,9 +704,7 @@ $diaAtual        = (int) date('w');
     </div>
 </section>
 
-<!-- ════════════════════════════════════
-     FOOTER
-════════════════════════════════════ -->
+<!-- Footer -->
 <footer class="bg-gray-950 text-gray-400">
     <div class="max-w-6xl mx-auto px-4 pt-14 pb-10 lg:pt-16">
         <div class="grid md:grid-cols-3 gap-10 lg:gap-14">
@@ -824,9 +806,7 @@ $diaAtual        = (int) date('w');
     </div>
 </footer>
 
-<!-- ════════════════════════════════════
-     BOTÃO WHATSAPP FLUTUANTE
-════════════════════════════════════ -->
+<!-- Botão WhatsApp flutuante -->
 <?php if ($whatsapp): ?>
 <a href="https://wa.me/<?= htmlspecialchars($whatsapp) ?>?text=Olá! Gostaria de fazer um pedido 🍕"
    target="_blank" rel="noopener"
@@ -839,7 +819,7 @@ $diaAtual        = (int) date('w');
 <?php endif; ?>
 
 <script>
-// ── Navbar: transparente → escura ao rolar ─────────
+// Navbar: transparente → escura ao rolar
 const navbar = document.getElementById('navbar');
 function updateNav() {
     if (window.scrollY > 60) {
@@ -851,7 +831,7 @@ function updateNav() {
 window.addEventListener('scroll', updateNav, { passive: true });
 updateNav();
 
-// ── Menu mobile ────────────────────────────────────
+// Menu mobile
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobile-menu');
 let open = false;
@@ -868,7 +848,7 @@ function closeMobile() {
     mobileMenu.style.opacity   = '0';
 }
 
-// ── Animações de scroll (IntersectionObserver) ─────
+// Animações de scroll (IntersectionObserver)
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
         if (e.isIntersecting) {

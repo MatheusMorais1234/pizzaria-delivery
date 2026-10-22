@@ -307,7 +307,7 @@ include __DIR__ . '/includes/layout_top.php';
 <?php include __DIR__ . '/includes/layout_bottom.php'; ?>
 
 <script>
-// ── Preview de imagem por URL ─────────────────────────────────
+// Preview de imagem por URL
 function previewImagemUrl(url) {
     const wrap = document.getElementById('preview-imagem-wrap');
     const img  = document.getElementById('preview-imagem');
@@ -325,7 +325,7 @@ function limparImagemUrl() {
     document.getElementById('preview-imagem-wrap').classList.add('hidden');
 }
 
-// ── Preview de economia (De / Por) ───────────────────────────
+// Preview de economia (De / Por)
 function atualizarEconomia() {
     const inputDe  = document.querySelector('input[name="preco_original"]');
     const inputPor = document.querySelector('input[name="preco_combo"]');

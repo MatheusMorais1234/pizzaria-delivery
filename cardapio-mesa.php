@@ -94,7 +94,7 @@ function fmtPreco(float $v): string {
 </head>
 <body class="bg-gray-50 min-h-screen pb-32">
 
-<!-- ===== TELA DE SUCESSO (overlay) ===== -->
+<!-- TELA DE SUCESSO (overlay) -->
 <div id="tela-sucesso" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center px-6 text-center">
     <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
         <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -118,7 +118,7 @@ function fmtPreco(float $v): string {
     </button>
 </div>
 
-<!-- ===== HEADER ===== -->
+<!-- Header -->
 <header class="bg-red-600 shadow-lg sticky top-0 z-30">
     <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
         <div class="flex items-center gap-3">
@@ -147,7 +147,7 @@ function fmtPreco(float $v): string {
     </div>
 </header>
 
-<!-- ===== PILLS DE CATEGORIA ===== -->
+<!-- Pills de categoria -->
 <?php if (!empty($categorias)): ?>
 <div class="bg-white border-b border-gray-100 sticky top-[72px] z-20 shadow-sm">
     <div class="max-w-3xl mx-auto px-4">
@@ -172,13 +172,13 @@ function fmtPreco(float $v): string {
 <?php endif; ?>
 
 <?php if ($tempoEspera > 0): ?>
-<!-- ══ BANNER TEMPO DE ESPERA ══ -->
+<!-- Banner tempo de espera -->
 <div class="bg-amber-50 border-b border-amber-200 py-2.5 px-4 text-center text-sm font-semibold text-amber-700">
     ⏱ Tempo estimado hoje: ~<?= $tempoEspera ?> min
 </div>
 <?php endif; ?>
 
-<!-- ===== CONTEÚDO ===== -->
+<!-- Conteúdo -->
 <main class="max-w-3xl mx-auto px-4 py-6 space-y-10">
 
     <!-- Combos -->
@@ -338,7 +338,7 @@ function fmtPreco(float $v): string {
 
 </main>
 
-<!-- ===== FOOTER ===== -->
+<!-- Footer -->
 <footer class="mt-10 bg-white border-t border-gray-100 py-8">
     <div class="max-w-3xl mx-auto px-4 text-center">
         <?php if ($mesaNum !== null): ?>
@@ -374,7 +374,7 @@ function fmtPreco(float $v): string {
 </footer>
 
 <?php if ($mesaNum !== null): ?>
-<!-- ===== BOTÃO FLUTUANTE DO CARRINHO ===== -->
+<!-- Botão flutuante do carrinho -->
 <button id="btn-cart" onclick="toggleCart()"
         style="display:none"
         class="fixed bottom-6 right-6 z-40 bg-red-600 hover:bg-red-700 text-white rounded-full w-16 h-16 shadow-xl flex items-center justify-center transition-all active:scale-95">
@@ -384,10 +384,10 @@ function fmtPreco(float $v): string {
     <span id="cart-count" class="absolute -top-1 -right-1 bg-yellow-400 text-gray-900 text-xs font-extrabold rounded-full w-6 h-6 flex items-center justify-center">0</span>
 </button>
 
-<!-- ===== OVERLAY DO CARRINHO ===== -->
+<!-- Overlay do carrinho -->
 <div id="cart-overlay" onclick="closeCart()" class="fixed inset-0 bg-black/50 z-40"></div>
 
-<!-- ===== DRAWER DO CARRINHO ===== -->
+<!-- Drawer do carrinho -->
 <div id="cart-drawer" class="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl shadow-2xl max-h-[85vh] flex flex-col
                               sm:left-auto sm:right-6 sm:bottom-6 sm:top-auto sm:max-h-[600px] sm:w-96 sm:rounded-2xl">
     <!-- Header drawer -->
@@ -421,7 +421,7 @@ function fmtPreco(float $v): string {
     </div>
 </div>
 
-<!-- ===== MODAL DE CHECKOUT ===== -->
+<!-- Modal de checkout -->
 <div id="modal-checkout" class="fixed inset-0 bg-black/60 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div class="bg-white w-full sm:rounded-2xl sm:max-w-md shadow-2xl rounded-t-3xl" onclick="event.stopPropagation()">
         <!-- Header -->
@@ -517,9 +517,7 @@ const observer = new IntersectionObserver((entries) => {
 sections.forEach(s => observer.observe(s));
 
 <?php if ($mesaNum !== null): ?>
-// ══════════════════════════════════════════════════════════════
-// CARRINHO
-// ══════════════════════════════════════════════════════════════
+// Carrinho
 const MESA_NUM  = <?= json_encode((string)$mesaNum) ?>;
 const MESA_LABEL = <?= json_encode($mesaLabel) ?>;
 const SESSION_KEY = 'cart_mesa_' + MESA_NUM;

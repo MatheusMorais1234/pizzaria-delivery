@@ -4,10 +4,10 @@ require_once __DIR__ . '/../includes/db.php';
 
 $pdo = getPDO();
 
-// ── Helpers ──────────────────────────────────────────────────────
+// Helpers
 function safeTrim($v) { return isset($v) ? trim($v) : ''; }
 
-// ── Parâmetros de filtro ─────────────────────────────────────────
+// Parâmetros de filtro
 $periodo    = safeTrim($_GET['periodo']    ?? 'hoje');
 $status_f   = safeTrim($_GET['status']     ?? '');
 $busca      = safeTrim($_GET['busca']      ?? '');
@@ -17,7 +17,7 @@ $pagina     = max(1, (int)($_GET['pagina'] ?? 1));
 $por_pagina = 20;
 $exportar   = isset($_GET['export']) && $_GET['export'] === 'csv';
 
-// ── Calcula datas conforme período ──────────────────────────────
+// Calcula datas conforme período
 $hoje = date('Y-m-d');
 switch ($periodo) {
     case 'hoje':
@@ -42,7 +42,7 @@ switch ($periodo) {
         break;
 }
 
-// ── Monta WHERE ──────────────────────────────────────────────────
+// Monta WHERE
 $where  = ['DATE(p.created_at) BETWEEN :data_ini AND :data_fim'];
 $params = [':data_ini' => $data_ini_sql, ':data_fim' => $data_fim_sql];
 
@@ -60,7 +60,7 @@ if ($busca !== '') {
 
 $whereSql = 'WHERE ' . implode(' AND ', $where);
 
-// ── Summary (cartões) — sem paginação ────────────────────────────
+// Summary (cartões) — sem paginação
 $sqlSum = "SELECT
     COUNT(*) AS total_pedidos,
     COALESCE(SUM(CASE WHEN p.status='entregue' THEN p.total ELSE 0 END), 0) AS receita,
@@ -71,7 +71,7 @@ $stmtSum = $pdo->prepare($sqlSum);
 $stmtSum->execute($params);
 $summary = $stmtSum->fetch(PDO::FETCH_ASSOC);
 
-// ── Contagem total para paginação ────────────────────────────────
+// Contagem total para paginação
 $sqlCount = "SELECT COUNT(*) FROM pedidos p $whereSql";
 $stmtCnt  = $pdo->prepare($sqlCount);
 $stmtCnt->execute($params);
@@ -80,7 +80,7 @@ $total_paginas   = max(1, (int)ceil($total_registros / $por_pagina));
 $pagina          = min($pagina, $total_paginas);
 $offset          = ($pagina - 1) * $por_pagina;
 
-// ── Query principal ──────────────────────────────────────────────
+// Query principal
 $sqlPedidos = "SELECT p.id, p.cliente_nome, p.cliente_telefone, p.endereco,
     p.observacao, p.total, p.status, p.tipo_entrega,
     p.cupom_codigo, p.desconto_cupom, p.motivo_cancelamento, p.created_at
@@ -95,7 +95,7 @@ $stmtP->bindValue(':offset', $offset,     PDO::PARAM_INT);
 $stmtP->execute();
 $pedidos = $stmtP->fetchAll(PDO::FETCH_ASSOC);
 
-// ── Busca itens dos pedidos da página atual ──────────────────────
+// Busca itens dos pedidos da página atual
 $itensPorPedido = [];
 if (!empty($pedidos)) {
     $ids         = array_column($pedidos, 'id');
@@ -117,7 +117,7 @@ if (!empty($pedidos)) {
     }
 }
 
-// ── Exportar CSV ─────────────────────────────────────────────────
+// Exportar CSV
 if ($exportar) {
     // Busca todos (sem paginação) para o CSV
     $sqlAll = "SELECT p.id, p.cliente_nome, p.cliente_telefone, p.endereco,
@@ -153,7 +153,7 @@ if ($exportar) {
     exit;
 }
 
-// ── Labels/cores para status ─────────────────────────────────────
+// Labels/cores para status
 function statusBadge($s) {
     $map = [
         'pendente'     => ['label' => 'Pendente',      'cls' => 'bg-yellow-100 text-yellow-800'],
@@ -217,7 +217,7 @@ $pageTitle = 'Histórico de Pedidos — Bella Napoli Admin';
 include __DIR__ . '/includes/layout_top.php';
 ?>
 
-<!-- ══ CABEÇALHO ════════════════════════════════════════════════ -->
+<!-- Cabeçalho -->
 <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
     <div>
         <h1 class="text-xl font-extrabold text-gray-900">Histórico de Pedidos</h1>
@@ -234,7 +234,7 @@ include __DIR__ . '/includes/layout_top.php';
     </a>
 </div>
 
-<!-- ══ CARTÕES DE RESUMO ════════════════════════════════════════ -->
+<!-- Cartões de resumo -->
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 
     <!-- Total de pedidos -->
@@ -292,7 +292,7 @@ include __DIR__ . '/includes/layout_top.php';
 
 </div>
 
-<!-- ══ FILTROS ══════════════════════════════════════════════════ -->
+<!-- Filtros -->
 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
     <form method="GET" action="" class="flex flex-wrap gap-3 items-end">
 
@@ -383,7 +383,7 @@ include __DIR__ . '/includes/layout_top.php';
     </form>
 </div>
 
-<!-- ══ TABELA ═══════════════════════════════════════════════════ -->
+<!-- Tabela -->
 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
 
     <?php if (empty($pedidos)): ?>
@@ -465,7 +465,7 @@ include __DIR__ . '/includes/layout_top.php';
     <?php endif; ?>
 </div>
 
-<!-- ══ PAGINAÇÃO ════════════════════════════════════════════════ -->
+<!-- Paginação -->
 <?php if ($total_paginas > 1): ?>
 <div class="flex flex-wrap items-center justify-between gap-3 mb-8">
     <p class="text-sm text-gray-500">
@@ -522,7 +522,7 @@ include __DIR__ . '/includes/layout_top.php';
 </div>
 <?php endif; ?>
 
-<!-- ══ MODAL DE DETALHE ══════════════════════════════════════════ -->
+<!-- Modal de detalhe -->
 <div id="modal-overlay"
      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4"
      onclick="fecharModal()">
@@ -560,7 +560,7 @@ include __DIR__ . '/includes/layout_top.php';
 <script>
 const PEDIDOS_DATA = <?= json_encode($pedidosJson, JSON_UNESCAPED_UNICODE) ?>;
 
-// ── Config de cores/labels de status ─────────────────────────────
+// Config de cores/labels de status
 const STATUS_CFG = {
     pendente:     { label: 'Pendente',       headerCls: 'bg-yellow-500', badgeCls: 'bg-yellow-100 text-yellow-800' },
     em_preparo:   { label: 'Em preparo',     headerCls: 'bg-blue-600',   badgeCls: 'bg-blue-100 text-blue-800' },
@@ -569,7 +569,7 @@ const STATUS_CFG = {
     cancelado:    { label: 'Cancelado',      headerCls: 'bg-gray-600',   badgeCls: 'bg-gray-100 text-gray-600' },
 };
 
-// ── Helpers ───────────────────────────────────────────────────────
+// Helpers
 function esc(str) {
     return String(str ?? '')
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
@@ -583,7 +583,7 @@ function fmtDt(str) {
     return d.toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
 }
 
-// ── Abre modal ────────────────────────────────────────────────────
+// Abre modal
 function abrirModal(id) {
     const p = PEDIDOS_DATA[id];
     if (!p) return;
@@ -716,7 +716,7 @@ function fecharModal() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
 
-// ── Toggle datas personalizadas ───────────────────────────────────
+// Toggle datas personalizadas
 document.querySelectorAll('button[name="periodo"]').forEach(btn => {
     btn.addEventListener('click', function() {
         const val = this.value;

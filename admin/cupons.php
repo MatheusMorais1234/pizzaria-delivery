@@ -6,7 +6,7 @@ $pdo    = getPDO();
 $erros  = [];
 $sucesso = '';
 
-// ── Ações POST ────────────────────────────────────────────────
+// Ações POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
 
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ── Edição ────────────────────────────────────────────────────
+// Edição
 $editando = null;
 $editId   = filter_input(INPUT_GET, 'editar', FILTER_VALIDATE_INT);
 if ($editId) {
@@ -89,7 +89,7 @@ include __DIR__ . '/includes/layout_top.php';
     </button>
 </div>
 
-<!-- ── Formulário ──────────────────────────────────────────── -->
+<!-- Formulário -->
 <div id="painel-form" class="<?= $editando || !empty($erros) ? '' : 'hidden' ?> mb-6">
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 max-w-2xl">
     <h2 class="font-bold text-gray-800 text-lg mb-4"><?= $editando ? 'Editar cupom' : 'Criar novo cupom' ?></h2>
@@ -189,7 +189,7 @@ include __DIR__ . '/includes/layout_top.php';
 </div>
 </div>
 
-<!-- ── Lista de cupons ─────────────────────────────────────── -->
+<!-- Lista de cupons -->
 <?php if (empty($cupons)): ?>
 <div class="text-center py-20 text-gray-400">
     <div class="text-6xl mb-4">🎫</div>

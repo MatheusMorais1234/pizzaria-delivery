@@ -4,7 +4,7 @@ require_once __DIR__ . '/../includes/db.php';
 
 $pdo = getPDO();
 
-// ── Contadores por status ────────────────────────────────────────
+// Contadores por status
 $rows = $pdo->query('SELECT status, COUNT(*) AS n, COALESCE(SUM(total),0) AS soma FROM pedidos GROUP BY status')->fetchAll();
 $por_status = [];
 foreach ($rows as $r) $por_status[$r['status']] = ['n' => (int)$r['n'], 'soma' => (float)$r['soma']];
@@ -16,7 +16,7 @@ $entregues   = $por_status['entregue']['n']     ?? 0;
 $ativos      = $pendentes + $emPreparo + $saiuEntrega;
 $totalGeral  = $pendentes + $emPreparo + $saiuEntrega + $entregues;
 
-// ── Faturamento hoje vs ontem ────────────────────────────────────
+// Faturamento hoje vs ontem
 $fatHoje   = (float)$pdo->query("SELECT COALESCE(SUM(total),0) FROM pedidos WHERE status='entregue' AND DATE(created_at)=CURDATE()")->fetchColumn();
 $fatOntem  = (float)$pdo->query("SELECT COALESCE(SUM(total),0) FROM pedidos WHERE status='entregue' AND DATE(created_at)=CURDATE()-INTERVAL 1 DAY")->fetchColumn();
 $pedHoje   = (int)$pdo->query("SELECT COUNT(*) FROM pedidos WHERE DATE(created_at)=CURDATE()")->fetchColumn();
@@ -33,7 +33,7 @@ function varCor($hoje, $ontem): string {
     return $hoje >= $ontem ? 'text-green-600' : 'text-red-500';
 }
 
-// ── Últimos 7 dias: faturamento e pedidos ───────────────────────
+// Últimos 7 dias: faturamento e pedidos
 $sete_dias_fat = [];
 $sete_dias_ped = [];
 $sete_dias_labels = [];
@@ -56,12 +56,12 @@ for ($i = 6; $i >= 0; $i--) {
     $sete_dias_ped[]    = (int)($mapa[$d]['ped'] ?? 0);
 }
 
-// ── Pedidos por hora hoje ────────────────────────────────────────
+// Pedidos por hora hoje
 $porHora = array_fill(0, 24, 0);
 $rows = $pdo->query("SELECT HOUR(created_at) AS h, COUNT(*) AS n FROM pedidos WHERE DATE(created_at)=CURDATE() GROUP BY h")->fetchAll();
 foreach ($rows as $r) $porHora[(int)$r['h']] = (int)$r['n'];
 
-// ── Top 6 produtos mais pedidos ──────────────────────────────────
+// Top 6 produtos mais pedidos
 $topProdutos = $pdo->query("
     SELECT pr.nome, SUM(pi.quantidade) AS qtd, SUM(pi.subtotal) AS receita
     FROM pedido_itens pi
@@ -71,17 +71,17 @@ $topProdutos = $pdo->query("
     LIMIT 6
 ")->fetchAll();
 
-// ── Últimos 10 pedidos ───────────────────────────────────────────
+// Últimos 10 pedidos
 $ultimos = $pdo->query('SELECT * FROM pedidos ORDER BY created_at DESC LIMIT 10')->fetchAll();
 
-// ── Taxa de conclusão ────────────────────────────────────────────
+// Taxa de conclusão
 $taxaConclusao = $totalGeral > 0 ? round($entregues / $totalGeral * 100) : 0;
 
 $pageTitle = 'Dashboard — Bella Napoli';
 include __DIR__ . '/includes/layout_top.php';
 ?>
 
-<!-- ── Cabeçalho ────────────────────────────────────────────────── -->
+<!-- Cabeçalho -->
 <div class="flex items-center justify-between mb-7">
     <div>
         <h1 class="text-2xl font-extrabold text-gray-900">Dashboard</h1>
@@ -96,7 +96,7 @@ include __DIR__ . '/includes/layout_top.php';
     </a>
 </div>
 
-<!-- ── Linha 1: Cards de métricas ──────────────────────────────── -->
+<!-- Linha 1: Cards de métricas -->
 <div class="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
 
     <!-- Faturamento hoje -->
@@ -166,7 +166,7 @@ include __DIR__ . '/includes/layout_top.php';
 
 </div>
 
-<!-- ── Linha 2: Gráfico 7 dias + Donut status ───────────────────── -->
+<!-- Linha 2: Gráfico 7 dias + Donut status -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
 
     <!-- Área: faturamento + pedidos 7 dias -->
@@ -211,7 +211,7 @@ include __DIR__ . '/includes/layout_top.php';
 
 </div>
 
-<!-- ── Linha 3: Pedidos por hora + Top produtos ─────────────────── -->
+<!-- Linha 3: Pedidos por hora + Top produtos -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
 
     <!-- Barras: pedidos por hora -->
@@ -257,7 +257,7 @@ include __DIR__ . '/includes/layout_top.php';
 
 </div>
 
-<!-- ── Linha 4: Tabela de últimos pedidos ───────────────────────── -->
+<!-- Linha 4: Tabela de últimos pedidos -->
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
         <div>
@@ -342,12 +342,12 @@ const HORAS      = <?= json_encode(array_values($porHora)) ?>;
 const DONUT_DATA = [<?= $pendentes ?>, <?= $emPreparo ?>, <?= $saiuEntrega ?>, <?= $entregues ?>];
 const DONUT_COR  = ['#facc15','#3b82f6','#f97316','#22c55e'];
 
-// ── Utils ─────────────────────────────────────────────────────────
+// Utils
 function fmtBRL(v) {
     return 'R$ ' + parseFloat(v).toLocaleString('pt-BR', {minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
-// ── Gráfico de 7 dias (linha dupla + área) ─────────────────────
+// Gráfico de 7 dias (linha dupla + área)
 (function() {
     const c   = document.getElementById('grafico-7dias');
     if (!c) return;
@@ -445,7 +445,7 @@ function fmtBRL(v) {
     c.addEventListener('mouseleave', () => { tip.classList.add('hidden'); hov = -1; });
 })();
 
-// ── Donut ──────────────────────────────────────────────────────
+// Donut
 (function() {
     const c   = document.getElementById('grafico-donut');
     if (!c) return;
@@ -483,7 +483,7 @@ function fmtBRL(v) {
     ctx.fillText('pedidos', cx, cy + 16);
 })();
 
-// ── Barras por hora ────────────────────────────────────────────
+// Barras por hora
 (function() {
     const c   = document.getElementById('grafico-horas');
     if (!c) return;

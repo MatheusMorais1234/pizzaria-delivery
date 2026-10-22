@@ -370,9 +370,7 @@ include __DIR__ . '/includes/header.php';
 <?php include __DIR__ . '/includes/footer.php'; ?>
 
 <script>
-// =============================================
 // Polling de status a cada 15 segundos
-// =============================================
 const pedidoId     = <?= $pedidoId ?>;
 const pedidoToken  = <?= json_encode((string) ($pedido['token'] ?? '')) ?>;
 let etapaAtual     = <?= $info['etapa'] ?>;
@@ -400,9 +398,7 @@ async function verificarStatus() {
     } catch (e) {}
 }
 
-// =============================================
 // Notificações do navegador
-// =============================================
 function notificarMudancaStatus(novoStatus) {
     if (Notification.permission !== 'granted') return;
     const mensagens = {
@@ -457,7 +453,7 @@ if (etapaAtual !== 4 && <?= $pedido['status'] === 'cancelado' ? 'false' : 'true'
     setInterval(verificarStatus, 15000);
 }
 
-// ── Avaliação por estrelas ──
+// Avaliação por estrelas
 const AV_LABELS = ['', 'Péssimo', 'Ruim', 'Regular', 'Bom', 'Excelente!'];
 let notaSelecionada = 0;
 
@@ -498,7 +494,7 @@ async function enviarAvaliacao() {
     }
 }
 
-// ── Countdown de entrega ──
+// Countdown de entrega
 let secsLeft = <?= (int) $segundosRestantes ?>;
 const minEl  = document.getElementById('countdown-min');
 const secEl  = document.getElementById('countdown-sec');
